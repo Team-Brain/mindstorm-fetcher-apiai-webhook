@@ -15,7 +15,15 @@
 
 process.env.DEBUG = 'actions-on-google:*';
 const App = require('actions-on-google').ApiAiApp;
+
+
+// The Cloud Functions for Firebase SDK to create Cloud Functions and setup triggers.
 const functions = require('firebase-functions');
+
+// The Firebase Admin SDK to access the Firebase Realtime Database. 
+const admin = require('firebase-admin');
+admin.initializeApp(functions.config().firebase);
+
 
 // [START YourAction]
 exports.apiaiFetchyFulfillment = functions.https.onRequest((request, response) => {
@@ -52,15 +60,24 @@ exports.apiaiFetchyFulfillment = functions.https.onRequest((request, response) =
             response.json(responseJson)
         },
         'bring.object': () => {
-            if (parameters['object'] === 'cup') {
-                responseJson.speech = 'No problem';
-                responseJson.displayText = 'No problem';
+            let color = parameters['color'];
+            let object = parameters['object'];
+            if (object === 'cup') {
+                responseJson.action = action;
+                responseJson.object = object;
+                responseJson.color = color;
+                responseJson.speech = 'Bringing ' + color + ' ' + object + '.';
+                responseJson.displayText = 'Bringing ' + color + ' ' + object + '.';
+                // Store the response in Firebase database
+               admin.database().ref('/requests').push(responseJson);
             } else {
                 responseJson.speech = 'Cant do';
                 responseJson.displayText = 'Cant do';
             }
+
             // Send the response to API.AI
-            response.json(responseJson)
+            response.json(responseJson);
+
         },
         'default': () => {
             // This is executed if the action hasn't been defined.
