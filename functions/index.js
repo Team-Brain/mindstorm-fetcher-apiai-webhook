@@ -63,6 +63,7 @@ exports.apiaiFetchyFulfillment = functions.https.onRequest((request, response) =
             let color = parameters['color'];
             let object = parameters['object'];
             if (object === 'cup') {
+                responseJson.timestamp = new Date();
                 responseJson.action = action;
                 responseJson.object = object;
                 responseJson.color = color;
