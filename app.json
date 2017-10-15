@@ -1,0 +1,6 @@
+{
+  "name": "Mindstorms Fetchy Dialogflow.ai Webhook",
+  "description": "Dialogflow.ai webhook for Lego Mindstorms robot Fetchy.",
+  "repository": "https://github.com/Team-Brain/mindstorms-fetchy-dialogflow-webhook.git",
+  "keywords": ["lego", "mindstorms", "fetchy", "dialogflow", "node", "websocket", "socket.io"]
+}

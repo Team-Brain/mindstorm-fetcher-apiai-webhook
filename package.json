@@ -1,19 +1,21 @@
 {
-  "name": "mindstorm-fetcher-apiai-webhook",
+  "name": "socket-io-fetchy",
   "version": "1.0.0",
+  "engines": {
+    "node": "6.2.0"
+  },
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Team-Brain/mindstorm-fetcher-apiai-webhook.git"
-  },
+  "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Team-Brain/mindstorm-fetcher-apiai-webhook/issues"
-  },
-  "homepage": "https://github.com/Team-Brain/mindstorm-fetcher-apiai-webhook#readme"
+  "dependencies": {
+    "actions-on-google": "1.5.0",
+    "body-parser": "^1.18.2",
+    "express": "4.13.4",
+    "socket.io": "1.4.6"
+  }
 }
