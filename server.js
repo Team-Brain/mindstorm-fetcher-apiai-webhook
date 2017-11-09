@@ -47,12 +47,21 @@ app.post('/webhook', function (request, response) {
       'input.welcome': () => {
           // The default welcome intent has been matched, Welcome the user.
           // Define the response users will hear
-          responseJson.speech = 'Hello! My name is Fetchy';
+          //responseJson.speech = 'Hello! My name is Fetchy';
           responseJson.speech = 'Hello! Vedran smells like the poo poo';
           // Define the response users will see
           responseJson.displayText = 'Hello! My name is Fetchy';
           // Send the response to API.AI
           response.json(responseJson)
+      },
+      'abort': () => {
+          // The default welcome intent has been matched, Welcome the user.
+          // Define the response users will hear
+          responseJson.speech = 'I am aborting';
+          // Define the response users will see
+          responseJson.displayText = 'I am aborting';
+          // Send the response to API.AI
+          //response.json(responseJson)
       },
       'bring.object': () => {
           let color = parameters['color'];
