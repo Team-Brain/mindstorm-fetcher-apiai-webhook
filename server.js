@@ -54,7 +54,7 @@ app.post('/webhook', function (request, response) {
           // Send the response to API.AI
           response.json(responseJson)
       },
-      'abort': () => {
+      'cancel.request': () => {
           // The default welcome intent has been matched, Welcome the user.
           // Define the response users will hear
           responseJson.speech = 'I am aborting';
