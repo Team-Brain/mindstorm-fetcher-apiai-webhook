@@ -36,6 +36,7 @@ app.post('/webhook', function (request, response) {
   // See https://api.ai/docs/contexts for more.
   const contexts = request.body.result.contexts;
   console.log('result contexts: ' + contexts);
+  console.log('');
 
   // Initialize JSON we will use to respond to API.AI.
   let responseJson = {};
@@ -46,7 +47,8 @@ app.post('/webhook', function (request, response) {
       'input.welcome': () => {
           // The default welcome intent has been matched, Welcome the user.
           // Define the response users will hear
-          responseJson.speech = 'Hello! My name is Vechinno';
+          responseJson.speech = 'Hello! My name is Fetchy';
+          responseJson.speech = 'Hello! Vedran smells like the poo poo';
           // Define the response users will see
           responseJson.displayText = 'Hello! My name is Fetchy';
           // Send the response to API.AI
