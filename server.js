@@ -19,19 +19,23 @@ const io = socketIO(server);
 app.post('/webhook', function (request, response) {
   console.log('Request headers: ' + JSON.stringify(request.headers));
   console.log('Request body: ' + JSON.stringify(request.body));
+  console.log('');
 
   // An action is a string used to identify what tasks needs to be done
   // in fulfillment usally based on the corresponding intent.
   // See https://api.ai/docs/actions-and-parameters for more.
   let action = request.body.result.action;
+  console.log('result action: ' + action);
 
   // Parameters are any entites that API.AI has extracted from the request.
   // See https://api.ai/docs/actions-and-parameters for more.
   const parameters = request.body.result.parameters;
+  console.log('result parameters: ' + parameters);
 
   // Contexts are objects used to track and store conversation state and are identified by strings.
   // See https://api.ai/docs/contexts for more.
   const contexts = request.body.result.contexts;
+  console.log('result contexts: ' + contexts);
 
   // Initialize JSON we will use to respond to API.AI.
   let responseJson = {};
@@ -42,7 +46,7 @@ app.post('/webhook', function (request, response) {
       'input.welcome': () => {
           // The default welcome intent has been matched, Welcome the user.
           // Define the response users will hear
-          responseJson.speech = 'Hello! My name is Fetchy';
+          responseJson.speech = 'Hello! My name is Vechinno';
           // Define the response users will see
           responseJson.displayText = 'Hello! My name is Fetchy';
           // Send the response to API.AI
