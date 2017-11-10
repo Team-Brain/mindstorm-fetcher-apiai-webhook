@@ -48,7 +48,7 @@ app.post('/webhook', function (request, response) {
           // The default welcome intent has been matched, Welcome the user.
           // Define the response users will hear
           //responseJson.speech = 'Hello! My name is Fetchy';
-          responseJson.speech = 'Hello! Vedran smells like the poo poo';
+          responseJson.speech = 'Hello! My name is Fetchy, im going to blow your fucking mind you pleb';
           // Define the response users will see
           responseJson.displayText = 'Hello! My name is Fetchy';
           // Send the response to API.AI
