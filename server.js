@@ -62,6 +62,7 @@ app.post('/webhook', function (request, response) {
           responseJson.displayText = 'I am aborting';
           // Send the response to API.AI
           response.json(responseJson)
+          io.emit('abort')
       },
       'bring.object': () => {
           let color = parameters['color'];
