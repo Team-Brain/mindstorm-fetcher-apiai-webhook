@@ -124,7 +124,7 @@ app.post('/webhook', function (request, response) {
     console.log('executing abort request function');
     console.log('current items in queueArray: ' + queueArray);
     console.log('removing: ' + queueArray[0]);
-    queueArray = queueArray.shift();
+    queueArray.shift();
     console.log('current items in queueArray after abort: ' + queueArray);
   }
 
