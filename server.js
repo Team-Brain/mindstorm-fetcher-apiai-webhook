@@ -57,7 +57,7 @@ app.post('/webhook', function (request, response) {
           response.json(responseJson)
       },
       'cancel.request': () => {
-           if (queueArray[index] == "") {
+           if (queueArray[0] == "") {
                responseJson.speech = 'No requests to abort';
                responseJson.displayText = 'No requests to abort';
                response.json(responseJson)
@@ -71,7 +71,7 @@ app.post('/webhook', function (request, response) {
           }
       },
       'cancel.allrequests': () => {
-          if (queueArray[index] == "") {
+          if (queueArray[0] == "") {
               responseJson.speech = 'No requests to abort';
               responseJson.displayText = 'No requests to abort';
               response.json(responseJson)
