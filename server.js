@@ -68,6 +68,8 @@ app.post('/webhook', function (request, response) {
           io.emit('abort')
       },
       'cancel.allrequests': () => {
+          // TODO IMPLEMENT ABORT ALL ON FETCHY
+
           // The default welcome intent has been matched, Welcome the user.
           // Define the response users will hear
           responseJson.speech = 'I am aborting all requests';
@@ -75,8 +77,8 @@ app.post('/webhook', function (request, response) {
           responseJson.displayText = 'I am aborting all requests';
           // Send the response to API.AI
           response.json(responseJson)
-          abortRequest();
-          io.emit('abort')
+          abortAllRequests();
+          io.emit('abortAll')
       },
       'bring.object': () => {
           let color = parameters['color'];
