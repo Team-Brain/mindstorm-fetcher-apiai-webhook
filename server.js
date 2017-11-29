@@ -57,28 +57,32 @@ app.post('/webhook', function (request, response) {
           response.json(responseJson)
       },
       'cancel.request': () => {
-          // The default welcome intent has been matched, Welcome the user.
-          // Define the response users will hear
-          responseJson.speech = 'I am aborting';
-          // Define the response users will see
-          responseJson.displayText = 'I am aborting';
-          // Send the response to API.AI
-          response.json(responseJson)
-          abortRequest();
-          io.emit('abort')
+           if (queueArray[index] == "") {
+               responseJson.speech = 'No requests to abort';
+               responseJson.displayText = 'No requests to abort';
+               response.json(responseJson)
+           }
+           else {
+               responseJson.speech = 'I am aborting';
+               responseJson.displayText = 'I am aborting';
+               response.json(responseJson)
+               abortRequest();
+               io.emit('abort')
+          }
       },
       'cancel.allrequests': () => {
-          // TODO IMPLEMENT ABORT ALL ON FETCHY
-
-          // The default welcome intent has been matched, Welcome the user.
-          // Define the response users will hear
-          responseJson.speech = 'I am aborting all requests';
-          // Define the response users will see
-          responseJson.displayText = 'I am aborting all requests';
-          // Send the response to API.AI
-          response.json(responseJson)
-          abortAllRequests();
-          io.emit('abortAll')
+          if (queueArray[index] == "") {
+              responseJson.speech = 'No requests to abort';
+              responseJson.displayText = 'No requests to abort';
+              response.json(responseJson)
+            }
+            else {
+                responseJson.speech = 'I am aborting';
+                responseJson.displayText = 'I am aborting';
+                response.json(responseJson)
+                abortAllRequests();
+                io.emit('abort_all')
+            }  
       },
       'bring.object': () => {
           let color = parameters['color'];
