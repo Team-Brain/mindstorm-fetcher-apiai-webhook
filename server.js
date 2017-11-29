@@ -78,7 +78,8 @@ app.post('/webhook', function (request, response) {
               responseJson.displayText = 'Bringing ' + color + ' ' + object + '.';
               // Notify connected sockets about new request
               io.emit('request', responseJson);
-              requestQueue(responseJson)
+              console.log('request queue time');
+              requestQueue(responseJson);
 
           } else {
               responseJson.speech = 'Cant do';
