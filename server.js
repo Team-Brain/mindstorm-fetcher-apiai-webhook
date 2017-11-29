@@ -64,6 +64,7 @@ app.post('/webhook', function (request, response) {
           responseJson.displayText = 'I am aborting';
           // Send the response to API.AI
           response.json(responseJson)
+          abortRequest();
           io.emit('abort')
       },
       'bring.object': () => {
@@ -117,9 +118,14 @@ app.post('/webhook', function (request, response) {
     console.log('adding to queueArray: ' + resp);
     queueArray = queueArray.concat(resp);
     console.log('item added to queueArray: ' + queueArray);
-    //reqQueue.shift()
-    //console.log('reqQueue: ' + reqQueue);
-    //return
+  }
+
+    function abortRequest (){
+    console.log('executing abort request function');
+    console.log('current items in queueArray: ' + queueArray);
+    console.log('removing: ' + queueArray[0]);
+    queueArray = queueArray.shift();
+    console.log('current items in queueArray after abort: ' + queueArray);
   }
 
   // If the action is not handled by one of our defined action handlers
