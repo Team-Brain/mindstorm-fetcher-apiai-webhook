@@ -79,7 +79,7 @@ app.post('/webhook', function (request, response) {
               // Notify connected sockets about new request
               io.emit('request', responseJson);
               console.log('request queue time');
-              requestQueue(responseJson);
+              addToRequestQueue(responseJson);
 
           } else {
               responseJson.speech = 'Cant do';
@@ -110,7 +110,7 @@ app.post('/webhook', function (request, response) {
       }
   };
 
-  function requestQueue (resp){
+  function addToRequestQueue (resp){
     resp = JSON.stringify(resp)
     console.log('executing request queue function');
     console.log('current items in queueArray: ' + queueArray);
