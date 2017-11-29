@@ -16,7 +16,7 @@ server.listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
 const io = socketIO(server);
 
-var queuearray = [];
+var queueArray = [];
 
 app.post('/webhook', function (request, response) {
   console.log('Request headers: ' + JSON.stringify(request.headers));
@@ -78,6 +78,8 @@ app.post('/webhook', function (request, response) {
               responseJson.displayText = 'Bringing ' + color + ' ' + object + '.';
               // Notify connected sockets about new request
               io.emit('request', responseJson);
+              requestQueue(responseJson)
+
           } else {
               responseJson.speech = 'Cant do';
               responseJson.displayText = 'Cant do';
@@ -106,6 +108,17 @@ app.post('/webhook', function (request, response) {
           response.json(responseJson)
       }
   };
+
+  function requestQueue (resp){
+    console.log('executing request queue function');
+    console.log('current items in queueArray: ' + queueArray);
+    console.log('adding to queueArray: ' + resp);
+    queueArray = queueArray.concat(resp);
+    console.log('item added to queueArray: ' + queueArray);
+    //reqQueue.shift()
+    //console.log('reqQueue: ' + reqQueue);
+    //return
+  }
 
   // If the action is not handled by one of our defined action handlers
   // use the default action handler
