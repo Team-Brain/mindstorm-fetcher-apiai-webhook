@@ -114,7 +114,7 @@ app.post('/webhook', function (request, response) {
     console.log('executing request queue function');
     console.log('current items in queueArray: ' + queueArray);
     console.log('adding to queueArray: ' + resp);
-    queueArray = queueArray.concat(resp);
+    queueArray = queueArray.concat(JSON.stringify(resp));
     console.log('item added to queueArray: ' + queueArray);
     //reqQueue.shift()
     //console.log('reqQueue: ' + reqQueue);
