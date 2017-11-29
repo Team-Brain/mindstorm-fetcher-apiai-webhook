@@ -16,6 +16,8 @@ server.listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
 const io = socketIO(server);
 
+var queuearray = [];
+
 app.post('/webhook', function (request, response) {
   console.log('Request headers: ' + JSON.stringify(request.headers));
   console.log('Request body: ' + JSON.stringify(request.body));
@@ -48,7 +50,7 @@ app.post('/webhook', function (request, response) {
           // The default welcome intent has been matched, Welcome the user.
           // Define the response users will hear
           //responseJson.speech = 'Hello! My name is Fetchy';
-          responseJson.speech = 'Hello! My name is Fetchy, im going to blow your fucking mind you pleb';
+          responseJson.speech = 'Hello! My name is Fetchy, im going to fail during the deomonstration tehehe lol';
           // Define the response users will see
           responseJson.displayText = 'Hello! My name is Fetchy';
           // Send the response to API.AI
