@@ -67,6 +67,17 @@ app.post('/webhook', function (request, response) {
           abortRequest();
           io.emit('abort')
       },
+      'cancel.allrequests': () => {
+          // The default welcome intent has been matched, Welcome the user.
+          // Define the response users will hear
+          responseJson.speech = 'I am aborting all requests';
+          // Define the response users will see
+          responseJson.displayText = 'I am aborting all requests';
+          // Send the response to API.AI
+          response.json(responseJson)
+          abortRequest();
+          io.emit('abort')
+      },
       'bring.object': () => {
           let color = parameters['color'];
           let object = parameters['object'];
@@ -126,6 +137,14 @@ app.post('/webhook', function (request, response) {
     console.log('removing: ' + queueArray[0]);
     queueArray.shift();
     console.log('current items in queueArray after abort: ' + queueArray);
+  }
+
+    function abortAllRequests (){
+    console.log('executing abort all requests function');
+    console.log('current items in queueArray: ' + queueArray);
+    console.log('removing all requests now');
+    queueArray = []
+    console.log('current items in queueArray after abort all requests: ' + queueArray);
   }
 
   // If the action is not handled by one of our defined action handlers
