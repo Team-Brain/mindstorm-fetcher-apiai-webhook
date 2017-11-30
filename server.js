@@ -12,8 +12,8 @@ var server = http.createServer(app)
 server.listen(PORT, () => console.log(`Listening on ${ PORT }`))
 const io = socketIO(server)
 var queueArray = []
-//var robotConnected = false
-var robotConnected = true
+var robotConnected = false
+//var robotConnected = true
 
 // Triggered by a POST to /webhook 
 app.post('/webhook', function (request, response) {
@@ -154,7 +154,7 @@ function addToRequestQueue (resp){
     resp = JSON.stringify(resp)
     console.log(`adding to request queue: ${ resp }`)
     queueArray = queueArray.concat(resp)
-    console.log(`item added to queueArray: ${ queueArray }`)
+    console.log(`current items in queueArray after add: ${ queueArray }`)
     console.log('')
 }
 
