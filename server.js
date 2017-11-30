@@ -83,14 +83,14 @@ app.post('/webhook', function (request, response) {
       },
       // 
       'what.canyoudo': () => {
-          responseJson.speech = 'I can fetch you items, but by items i mean only coloured cups. And by coloured cups I mean coloured non-reflective boxes. like, man, im kidna shitty. I can not fetch heavy objects like coffe cups'
-          responseJson.displayText = 'I can fetch you items, but by items i mean only coloured cups. And by coloured cups I mean coloured non-reflective boxes. like, man, im kidna shitty. I can not fetch heavy objects like coffe cups'
+          responseJson.speech = 'I can fetch you items, for example. I can fetch a red box, or a black box, potentially even a green box. please do not ask me to fetch a blue box, my crappy sensor can not sense it'
+          responseJson.displayText = 'I can fetch you items, for example. I can fetch a red box, or a black box, potentially even a green box. please do not ask me to fetch a blue box, my crappy sensor can not sense it'
           response.json(responseJson)
       },
       // 
       'purpose': () => {
-          responseJson.speech = 'I fetch coffee.... OOOH MYYYY GOOOOD'
-          responseJson.displayText = 'I fetch coffee.... OOOH MYYYY GOOOOD'
+          responseJson.speech = 'I fetch coffee.... OH MY GOD'
+          responseJson.displayText = 'I fetch coffee.... OH MY GOD'
           response.json(responseJson)
       },
       // The default intent when an action has not been defined in the user input
