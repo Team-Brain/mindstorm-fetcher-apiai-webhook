@@ -60,8 +60,8 @@ app.post('/webhook', function (request, response) {
               responseJson.action = action;
               responseJson.object = object;
               responseJson.color = color;
-              responseJson.speech = 'Bringing ' + color + ' ' + object + '.';
-              responseJson.displayText = 'Bringing ' + color + ' ' + object + '.';
+              responseJson.speech = `Bringing the ${ color } ${ object } .`;
+              responseJson.displayText = `Bringing the ${ color } ${ object } .`;
 
               addToRequestQueue(responseJson);
               io.emit('request', responseJson);
