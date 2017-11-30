@@ -66,10 +66,10 @@ app.post('/webhook', function (request, response) {
               addToRequestQueue(responseJson);
               io.emit('request', responseJson);
 
-          } else {
-              console.log('Unrecognised object in request: ' + object);
-              responseJson.speech = 'Unrecognised object, I can not perform the request';
-              responseJson.displayText = 'Unrecognised object, I can not perform the request';
+          } else { //(`Listening on ${ PORT }`));
+              console.log(`Unrecognised object in request: ${ object }`);
+              responseJson.speech = `Unrecognised object: ${ object }. I can not perform the request`;
+              responseJson.displayText = `Unrecognised object: ${ object }. I can not perform the request`;
           }
 
           response.json(responseJson);
