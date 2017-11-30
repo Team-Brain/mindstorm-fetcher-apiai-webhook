@@ -74,8 +74,8 @@ app.post('/webhook', function (request, response) {
 
           } else { // and by cups i actually mean boxes
               console.log(`Unrecognised object in request: ${ object }`)
-              responseJson.speech = `I do not understand your requested object ${ object }. I can only fetch cups`
-              responseJson.displayText = `I do not understand your requested object ${ object }. I can only fetch cups`
+              responseJson.speech = `I do not understand your requested object. I can only fetch cups, and by cups i actually mean boxes`
+              responseJson.displayText = `I do not understand your requested object. I can only fetch cups, and by cups i actually mean boxes`
           }
 
           response.json(responseJson)
