@@ -12,7 +12,8 @@ var server = http.createServer(app)
 server.listen(PORT, () => console.log(`Listening on ${ PORT }`))
 const io = socketIO(server)
 var queueArray = []
-var robotConnected = false
+//var robotConnected = false
+var robotConnected = true
 
 // Triggered by a POST to /webhook 
 app.post('/webhook', function (request, response) {
