@@ -60,8 +60,8 @@ app.post('/webhook', function (request, response) {
               responseJson.action = action;
               responseJson.object = object;
               responseJson.color = color;
-              responseJson.speech = `Bringing the ${ color } ${ object } .`;
-              responseJson.displayText = `Bringing the ${ color } ${ object } .`;
+              responseJson.speech = `Bringing the ${ color } ${ object }.`;
+              responseJson.displayText = `Bringing the ${ color } ${ object }.`;
 
               addToRequestQueue(responseJson);
               io.emit('request', responseJson);
@@ -140,8 +140,8 @@ app.post('/webhook', function (request, response) {
 function addToRequestQueue (resp){
     resp = JSON.stringify(resp)
     console.log('executing request queue function');
-    console.log('current items in queueArray: ' + queueArray);
-    console.log('adding to queueArray: ' + resp);
+    console.log(`current items in request queue: ${ queueArray }`);
+    console.log(`adding to request queue: ${ resp }`);
     queueArray = queueArray.concat(resp);
     console.log('item added to queueArray: ' + queueArray);
 }
