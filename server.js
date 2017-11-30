@@ -55,6 +55,10 @@ app.post('/webhook', function (request, response) {
       // -to be sent back to Dialogflow, to Fetchy and put into the request queue (queueArray)
       // io.emit('request', responseJson); is used to send the request to Fetchy
       'bring.object': () => {
+          if (!robotConnected) {
+              sendNotConnected()
+              return
+          }
           let color = parameters['color']
           let object = parameters['object']
           if (object === 'cup') {
@@ -97,7 +101,11 @@ app.post('/webhook', function (request, response) {
       // An intent to remove the first request in the request queue
       // queueArray contains an ordered list of requests for Fetchy to perform
       'cancel.request': () => {
-           if (queueArray[0] == null) {
+          if (!robotConnected) {
+              sendNotConnected()
+              return
+          }
+          if (queueArray[0] == null) {
                console.log('No requests to abort')
                responseJson.speech = 'No requests to abort'
                responseJson.displayText = 'No requests to abort'
@@ -113,6 +121,10 @@ app.post('/webhook', function (request, response) {
       },
       // An intent to remove the all requests in the request queue
       'cancel.allrequests': () => {
+          if (!robotConnected) {
+              sendNotConnected()
+              return
+          }
           if (queueArray[0] == null) {
               console.log('No requests to abort')
               responseJson.speech = 'No requests to abort'
@@ -129,26 +141,23 @@ app.post('/webhook', function (request, response) {
       }
   }
 
-  // Checks if Fetchy is connected to the service
-  // If Fetchy is not connected, the request will not be processed by the action handlers
-  if (robotConnected == false) {
-      console.log('Fetchy is not connected')
-      console.log(' ')
-      responseJson.speech = 'Fetchy is not connected or initialised, please connect Fetchy'
-      responseJson.displayText = 'Fetchy is not connected or initialised, please connect Fetchy'
-      response.json(responseJson)
-  }
-  else {
-      // If the action is not handled by one of our defined action handlers
-      // use the default action handler
-      if (!actionHandlers[action]) {
-          action = 'default'
-        }
-        // Matches the action to a action handler
-        actionHandlers[action]()
+    // If the action is not handled by one of our defined action handlers
+    // use the default action handler
+    if (!actionHandlers[action]) {
+        action = 'default'
     }
+    // Matches the action to a action handler
+    actionHandlers[action]()
 
 })
+
+function sendNotConnected() {
+    console.log('Fetchy is not connected')
+    console.log(' ')
+    responseJson.speech = 'Fetchy is not connected or initialised, please connect Fetchy'
+    responseJson.displayText = 'Fetchy is not connected or initialised, please connect Fetchy'
+    response.json(responseJson)
+}
 
 function addToRequestQueue (resp){
     resp = JSON.stringify(resp)
