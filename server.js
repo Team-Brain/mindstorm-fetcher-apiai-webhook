@@ -81,9 +81,21 @@ app.post('/webhook', function (request, response) {
           response.json(responseJson)
 
       },
+      // 
+      'what.canyoudo': () => {
+          responseJson.speech = 'I can fetch you items, but by items i mean only coloured cups. And by coloured cups I mean coloured non-reflective boxes. like, man, im kidna shitty. I can not fetch heavy objects like coffe cups'
+          responseJson.displayText = 'I can fetch you items, but by items i mean only coloured cups. And by coloured cups I mean coloured non-reflective boxes. like, man, im kidna shitty. I can not fetch heavy objects like coffe cups'
+          response.json(responseJson)
+      },
+      // 
+      'purpose': () => {
+          responseJson.speech = 'I fetch coffee.... OOOH MYYYY GOOOOD'
+          responseJson.displayText = 'I fetch coffee.... OOOH MYYYY GOOOOD'
+          response.json(responseJson)
+      },
       // The default intent when an action has not been defined in the user input
       // This executes whenever a user makes a request or says something that dooesnt-
-      // match a dialogflow intent
+      // match a dialogflow intent 
       'default': () => {
           responseJson.speech = 'Sorry, I dont understand what you said. Please repeat the request'
           responseJson.displayText = 'Sorry, I dont understand what you said. Please repeat the request'
