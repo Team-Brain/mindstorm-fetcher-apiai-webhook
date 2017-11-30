@@ -12,7 +12,7 @@ var server = http.createServer(app)
 server.listen(PORT, () => console.log(`Listening on ${ PORT }`))
 const io = socketIO(server)
 var queueArray = []
-var robotConnected = false
+var robotConnected = true
 //var robotConnected = true
 
 // Triggered by a POST to /webhook 
@@ -28,7 +28,7 @@ app.post('/webhook', function (request, response) {
 
   // Parameters are any entites that API.AI has extracted from the request.
   const parameters = request.body.result.parameters
-  console.log('result parameters: ' + parameters)
+  console.log('result parameters: ' + JSON.stringify(parameters))
 
   // Contexts are objects used to track and store conversation state and are identified by strings.
   const contexts = request.body.result.contexts
@@ -58,7 +58,7 @@ app.post('/webhook', function (request, response) {
           if (!robotConnected) {
               sendNotConnected()
               return
-          }
+            }
           let color = parameters['color']
           let object = parameters['object']
           if (object === 'cup') {
@@ -152,6 +152,7 @@ app.post('/webhook', function (request, response) {
 })
 
 function sendNotConnected() {
+    let responseJson = {}
     console.log('Fetchy is not connected')
     console.log(' ')
     responseJson.speech = 'Fetchy is not connected or initialised, please connect Fetchy'
