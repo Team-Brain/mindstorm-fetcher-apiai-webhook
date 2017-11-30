@@ -12,6 +12,7 @@ var server = http.createServer(app);
 server.listen(PORT, () => console.log(`Listening on ${ PORT }`));
 const io = socketIO(server);
 var queueArray = [];
+var robotConnected = false
 
 // Triggered by a POST to /webhook 
 app.post('/webhook', function (request, response) {
@@ -35,6 +36,12 @@ app.post('/webhook', function (request, response) {
 
   // Initialize JSON we will use to respond to API.AI.
   let responseJson = {};
+
+  if (robotConnected == false) {
+      responseJson.speech = 'Fetchy is not connected or initialised, please connect Fetchy';
+      responseJson.displayText = 'Fetchy is not connected or initialised, please connect Fetchy';
+      response.json(responseJson)
+  }
 
   // A handler for each action defined in API.AI
   const actionHandlers = {
@@ -66,7 +73,7 @@ app.post('/webhook', function (request, response) {
               addToRequestQueue(responseJson);
               io.emit('request', responseJson);
 
-          } else { //(`Listening on ${ PORT }`));
+          } else {
               console.log(`Unrecognised object in request: ${ object }`);
               responseJson.speech = `Unrecognised object: ${ object }. I can not perform the request`;
               responseJson.displayText = `Unrecognised object: ${ object }. I can not perform the request`;
@@ -143,37 +150,48 @@ function addToRequestQueue (resp){
     console.log(`current items in request queue: ${ queueArray }`);
     console.log(`adding to request queue: ${ resp }`);
     queueArray = queueArray.concat(resp);
-    console.log('item added to queueArray: ' + queueArray);
+    console.log(`item added to queueArray: ${ queueArray }`);
+    console.log('');
 }
 
 function abortRequest (){
     console.log('executing abort request function');
-    console.log('current items in queueArray: ' + queueArray);
-    console.log('removing: ' + queueArray[0]);
+    console.log(`current items in queueArray: ${ queueArray }`);
+    console.log(`removing: ${ queueArray[0] }`);
     queueArray.shift();
-    console.log('current items in queueArray after abort: ' + queueArray);
+    console.log(`current items in queueArray after abort: ${ queueArray }`);
+    console.log('');
 }
 
 function abortAllRequests (){
     console.log('executing abort all requests function');
-    console.log('current items in queueArray: ' + queueArray);
+    console.log(`current items in queueArray: ${ queueArray }`);
     console.log('removing all requests now');
     queueArray = []
-    console.log('current items in queueArray after abort all requests: ' + queueArray);
+    console.log(`current items in queueArray after abort all requests: ${ queueArray }`);
+    console.log('');
 }
 
 function requestCompletion (){
     console.log('removing completed task from queue');
-    console.log('current items in queueArray: ' + queueArray);
+    console.log(`current items in queueArray: ${ queueArray }`);
     queueArray.shift();
     console.log('request removed');
-    console.log('current items in queueArray: ' + queueArray);
+    console.log(`current items in queueArray: ${ queueArray }`);
+    console.log('');
   }
 
 //io.on('connection', (socket) => {
 io.on('connection', function(socket){
   console.log('Client connected');
-  socket.on('request_completed', () => console.log('Fetchy completed a request'),
-  requestCompletion())
-  socket.on('disconnect', () => console.log('Client disconnected'));
+  robotConnected = true
+
+  socket.on('request_completed', () => {
+      console.log('Fetchy completed a request'),
+      requestCompletion()
+      })
+  socket.on('disconnect', () => {
+      console.log('Client disconnected')
+      robotConnected = false
+    });
 });
