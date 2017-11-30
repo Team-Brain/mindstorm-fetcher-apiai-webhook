@@ -48,39 +48,6 @@ app.post('/webhook', function (request, response) {
           responseJson.displayText = 'Hello! My name is Fetchy';
           response.json(responseJson)
       },
-      // An intent to remove the first request in the request queue
-      // queueArray contains an ordered list of requests for Fetchy to perform
-      'cancel.request': () => {
-           if (queueArray[0] == null) {
-               console.log('No requests to abort');
-               responseJson.speech = 'No requests to abort';
-               responseJson.displayText = 'No requests to abort';
-               response.json(responseJson)
-           }
-           else {
-               responseJson.speech = 'I am aborting';
-               responseJson.displayText = 'I am aborting';
-               response.json(responseJson)
-               abortRequest();
-               io.emit('abort')
-          }
-      },
-      // An intent to remove the all requests in the request queue
-      'cancel.allrequests': () => {
-          if (queueArray[0] == null) {
-              console.log('No requests to abort');
-              responseJson.speech = 'No requests to abort';
-              responseJson.displayText = 'No requests to abort';
-              response.json(responseJson)
-            }
-            else {
-                responseJson.speech = 'I am aborting';
-                responseJson.displayText = 'I am aborting';
-                response.json(responseJson)
-                abortAllRequests();
-                io.emit('abort_all')
-            }  
-      },
       // An intent to send Fetchy a request
       // Parameters from dialogflow are unpacked, and packed into a new object-
       // -to be sent back to Dialogflow, to Fetchy and put into the request queue (queueArray)
@@ -124,6 +91,39 @@ app.post('/webhook', function (request, response) {
           // Uncomment next 2 lines to enable. See https://api.ai/docs/contexts for more.
           //let outgoingContexts = [{"name":"weather", "lifespan":2, "parameters":{"city":"Rome"}}];
           //responseJson.contextOut = outgoingContexts;
+      },
+      // An intent to remove the first request in the request queue
+      // queueArray contains an ordered list of requests for Fetchy to perform
+      'cancel.request': () => {
+           if (queueArray[0] == null) {
+               console.log('No requests to abort');
+               responseJson.speech = 'No requests to abort';
+               responseJson.displayText = 'No requests to abort';
+               response.json(responseJson)
+           }
+           else {
+               responseJson.speech = 'I am aborting';
+               responseJson.displayText = 'I am aborting';
+               response.json(responseJson)
+               abortRequest();
+               io.emit('abort')
+          }
+      },
+      // An intent to remove the all requests in the request queue
+      'cancel.allrequests': () => {
+          if (queueArray[0] == null) {
+              console.log('No requests to abort');
+              responseJson.speech = 'No requests to abort';
+              responseJson.displayText = 'No requests to abort';
+              response.json(responseJson)
+            }
+            else {
+                responseJson.speech = 'I am aborting';
+                responseJson.displayText = 'I am aborting';
+                response.json(responseJson)
+                abortAllRequests();
+                io.emit('abort_all')
+            }  
       }
   };
 
