@@ -53,7 +53,7 @@ app.post('/webhook', function (request, response) {
       // An intent to send Fetchy a request
       // Parameters from dialogflow are unpacked, and packed into a new object-
       // -to be sent back to Dialogflow, to Fetchy and put into the request queue (queueArray)
-      // io.emit('request', responseJson); is used to send the request to Fetchy
+      // io.emit('request', responseJson); is used to send the request to Fetchy , and by cups i actually mean boxes
       'bring.object': () => {
           if (!robotConnected) {
               sendNotConnected()
@@ -72,10 +72,10 @@ app.post('/webhook', function (request, response) {
               addToRequestQueue(responseJson)
               io.emit('request', responseJson)
 
-          } else {
+          } else { // and by cups i actually mean boxes
               console.log(`Unrecognised object in request: ${ object }`)
-              responseJson.speech = `Unrecognised object: ${ object }. I can not perform the request`
-              responseJson.displayText = `Unrecognised object: ${ object }. I can not perform the request`
+              responseJson.speech = `I do not understand your requested object ${ object }. I can only fetch cups`
+              responseJson.displayText = `I do not understand your requested object ${ object }. I can only fetch cups`
           }
 
           response.json(responseJson)
