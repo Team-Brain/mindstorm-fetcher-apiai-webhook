@@ -15,8 +15,6 @@ var requestQueue = []
 var robotConnected = true
 //var robotConnected = false
 
-//io.on('connection', (socket) => {
-//app.post('/webhook', function (request, response) {
 // Triggered by a POST to /webhook 
 app.post('/webhook', (request, response) => {
   console.log('Request headers: ' + JSON.stringify(request.headers))
@@ -53,6 +51,7 @@ app.post('/webhook', (request, response) => {
           response.json(responseJson)
       },
       // An intent to send Fetchy a request
+      // The first if checks if the robot is connected and notifies the user if it is not connected
       // Parameters from dialogflow are unpacked, and packed into a new object-
       // -to be sent back to Dialogflow, to Fetchy and put into the request queue (requestQueue)
       // io.emit('request', responseJson); is used to send the request to Fetchy , and by cups i actually mean boxes
@@ -74,7 +73,7 @@ app.post('/webhook', (request, response) => {
               addToRequestQueue(responseJson)
               io.emit('request', responseJson)
 
-          } else { // and by cups i actually mean boxes
+          } else {
               console.log(`Unrecognised object in request: ${ object }`)
               responseJson.speech = `I do not understand your requested object. I can only fetch cups, and by cups i actually mean boxes`
               responseJson.displayText = `I do not understand your requested object. I can only fetch cups, and by cups i actually mean boxes`
@@ -83,13 +82,13 @@ app.post('/webhook', (request, response) => {
           response.json(responseJson)
 
       },
-      // 
+      // An intent to tell the user what he is capable of
       'what.canyoudo': () => {
           responseJson.speech = 'I can fetch you items, for example. I can fetch a red box, or a black box, potentially even a green box. please do not ask me to fetch a blue box, my crappy sensor can not sense it'
           responseJson.displayText = 'I can fetch you items, for example. I can fetch a red box, or a black box, potentially even a green box. please do not ask me to fetch a blue box, my crappy sensor can not sense it'
           response.json(responseJson)
       },
-      // 
+      // An intent to tell the users his purpose
       'purpose': () => {
           responseJson.speech = 'I fetch coffee.... OH MY GOD'
           responseJson.displayText = 'I fetch coffee.... OH MY GOD'
@@ -102,15 +101,6 @@ app.post('/webhook', (request, response) => {
           responseJson.speech = 'Sorry, I dont understand what you said. Please repeat the request'
           responseJson.displayText = 'Sorry, I dont understand what you said. Please repeat the request'
           response.json(responseJson)
-
-          // Optional: add rich messages for Google Assistant, Facebook and Slack defined below.
-          // Uncomment next line to enable. See https://api.ai/docs/rich-messages for more.
-          //responseJson.data = richResponses;
-
-          // Optional: add outgoing context(s) for conversation branching and flow control.
-          // Uncomment next 2 lines to enable. See https://api.ai/docs/contexts for more.
-          //let outgoingContexts = [{"name":"weather", "lifespan":2, "parameters":{"city":"Rome"}}];
-          //responseJson.contextOut = outgoingContexts;
       },
       // An intent to remove the first request in the request queue
       // requestQueue contains an ordered list of requests for Fetchy to perform
@@ -121,8 +111,8 @@ app.post('/webhook', (request, response) => {
           }
           if (requestQueue[0] == null) {
                console.log('No requests to abort')
-               responseJson.speech = 'No requests to abort'
-               responseJson.displayText = 'No requests to abort'
+               responseJson.speech = 'There are no requests to abort'
+               responseJson.displayText = 'There are no requests to abort'
                response.json(responseJson)
            }
            else {
@@ -183,6 +173,9 @@ function addToRequestQueue (resp){
 }
 
 function abortRequest (){
+    let color = requestQueue[0]['color']
+    let object = requestQueue[0]['object']
+    console.log(`colour and object: ${ color } ${ object }`)
     console.log(`removing request: ${ requestQueue[0] }`)
     requestQueue.shift()
     console.log(`current items in requestQueue after abort: ${ requestQueue }`)
@@ -204,8 +197,7 @@ function requestCompletion (){
     console.log('')
   }
 
-//io.on('connection', (socket) => {
-io.on('connection', function(socket){
+io.on('connection', (socket) => {
   console.log('Client connected')
   robotConnected = true
 
