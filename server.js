@@ -34,7 +34,7 @@ app.post('/webhook', (request, response) => {
     console.log('result parameters: ' + JSON.stringify(parameters))
 
     // Contexts are objects used to track and store conversation state and are identified by strings.
-    const contexts = request.body.result.contexts
+    const contexts = JSON.stringify(request.body.result.contexts)
     console.log('result contexts: ' + contexts)
     console.log('')
 
@@ -167,6 +167,7 @@ function sendNotConnected() {
 })
 
 function addToRequestQueue(request) {
+    request = JSON.stringify(request)
     console.log(`adding to request queue: ${request}`)
     requestQueue = requestQueue.concat(request)
     console.log(`current items in requestQueue after add: ${requestQueue}`)
@@ -206,6 +207,6 @@ io.on('connection', (socket) => {
     })
     socket.on('disconnect', () => {
         console.log('Client disconnected')
-        robotConnected = false
+        //robotConnected = false
     })
 })
