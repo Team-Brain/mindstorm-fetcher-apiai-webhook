@@ -116,9 +116,7 @@ app.post('/webhook', (request, response) => {
                response.json(responseJson)
            }
            else {
-               reqQ = requestQueue[0]
-               let speech = reqQ.speech
-               console.log('********* speech ' + speech)
+               let speech = requestQueue[0].speech
                abortRequest()
                responseJson.speech = `I am aborting the request, ${ speech }`
                responseJson.displayText = `I am aborting the request, ${ speech }`
