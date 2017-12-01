@@ -116,8 +116,9 @@ app.post('/webhook', (request, response) => {
                response.json(responseJson)
            }
            else {
-               let color = requestQueue[0].color
-               let object = requestQueue[0].object
+               reqQ = requestQueue[0]
+               let color = reqQ.color
+               let object = reqQ.object
                console.log('********* colour ' + color)
                abortRequest()
                responseJson.speech = `I am aborting the request, bring me the  ${ color } ${ object }`
