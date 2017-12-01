@@ -35,8 +35,10 @@ app.post('/webhook', (request, response) => {
   console.log('result contexts: ' + contexts)
   console.log('')
 
-  // Initialize JSON we will use to respond to API.AI.
+  // responseJSON is used to send back to dialogflow
+  // requestJSON is used to send the request to the robot
   let responseJson = {}
+  let requestJson = {}
 
   // A handler for each action defined in API.AI
   const actionHandlers = {
@@ -45,7 +47,7 @@ app.post('/webhook', (request, response) => {
       // responseJson.speech is the text read to the user my Google Assistant
       // responseJson.displayText is the text displayed to the user on Google Assistant
       // response.json(responseJson) is the response sent to API.AI
-      'input.welcome': () => {
+      'welcome': () => {
           responseJson.speech = 'Hello! My name is Fetchy'
           responseJson.displayText = 'Hello! My name is Fetchy'
           response.json(responseJson)
@@ -55,7 +57,7 @@ app.post('/webhook', (request, response) => {
       // Parameters from dialogflow are unpacked, and packed into a new object-
       // -to be sent back to Dialogflow, to Fetchy and put into the request queue (requestQueue)
       // io.emit('request', responseJson); is used to send the request to Fetchy , and by cups i actually mean boxes
-      'bring.object': () => {
+      'bring_object': () => {
           if (!robotConnected) {
               sendNotConnected()
               return
@@ -70,8 +72,12 @@ app.post('/webhook', (request, response) => {
               responseJson.speech = `Bringing the ${ color } ${ object }.`
               responseJson.displayText = `Bringing the ${ color } ${ object }.`
 
+              requestJson.action = action
+              requestJson.color = color
+              requestJson.object = object
+
               addToRequestQueue(responseJson)
-              io.emit('request', responseJson)
+              io.emit('request', requestJson)
 
           } else {
               console.log(`Unrecognised object in request: ${ object }`)
@@ -83,7 +89,7 @@ app.post('/webhook', (request, response) => {
 
       },
       // An intent to tell the user what he is capable of
-      'what.canyoudo': () => {
+      'abilities': () => {
           responseJson.speech = 'I can fetch you items, for example. I can fetch a red box, or a black box, potentially even a green box. please do not ask me to fetch a blue box, my crappy sensor can not sense it'
           responseJson.displayText = 'I can fetch you items, for example. I can fetch a red box, or a black box, potentially even a green box. please do not ask me to fetch a blue box, my crappy sensor can not sense it'
           response.json(responseJson)
@@ -104,7 +110,7 @@ app.post('/webhook', (request, response) => {
       },
       // An intent to remove the first request in the request queue
       // requestQueue contains an ordered list of requests for Fetchy to perform
-      'cancel.request': () => {
+      'cancel_current': () => {
           if (!robotConnected) {
               sendNotConnected()
               return
@@ -114,18 +120,17 @@ app.post('/webhook', (request, response) => {
                responseJson.speech = 'There are no requests to abort'
                responseJson.displayText = 'There are no requests to abort'
                response.json(responseJson)
-           }
-           else {
+           } else {
                let speech = requestQueue[0].speech
                abortRequest()
-               responseJson.speech = `I am aborting the request, ${ speech }`
-               responseJson.displayText = `I am aborting the request, ${ speech }`
+               responseJson.speech = `I am aborting the current request`
+               responseJson.displayText = `I am aborting the current request`
                response.json(responseJson)
                io.emit('abort')
           }
       },
       // An intent to remove the all requests in the request queue
-      'cancel.allrequests': () => {
+      'cancel_all': () => {
           if (!robotConnected) {
               sendNotConnected()
               return
