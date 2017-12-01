@@ -178,7 +178,7 @@ function abortRequest (){
     requestQueue.shift()
     console.log(`current items in requestQueue after abort: ${ requestQueue }`)
     console.log('')
-    return color, object
+    return
 }
 
 function abortAllRequests (){
