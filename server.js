@@ -74,7 +74,7 @@ app.post('/webhook', (request, response) => {
                 requestJson.object = object
                 requestJson.timestamp = new Date()
 
-                addToRequestQueue(responseJson)
+                addToRequestQueue(requestJson)
                 io.emit('request', requestJson)
 
             } else {
@@ -155,8 +155,6 @@ app.post('/webhook', (request, response) => {
     // Matches the action to a action handler
     actionHandlers[action]()
 
-})
-
 function sendNotConnected() {
     let responseJson = {}
     console.log('Fetchy is not connected')
@@ -166,10 +164,11 @@ function sendNotConnected() {
     response.json(responseJson)
 }
 
-function addToRequestQueue(resp) {
-    resp = JSON.stringify(resp)
-    console.log(`adding to request queue: ${resp}`)
-    requestQueue = requestQueue.concat(resp)
+})
+
+function addToRequestQueue(request) {
+    console.log(`adding to request queue: ${request}`)
+    requestQueue = requestQueue.concat(request)
     console.log(`current items in requestQueue after add: ${requestQueue}`)
     console.log('')
 }
