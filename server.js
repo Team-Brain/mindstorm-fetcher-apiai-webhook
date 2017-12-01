@@ -173,8 +173,8 @@ function addToRequestQueue (resp){
 }
 
 function abortRequest (){
-    let color = requestQueue[0]['color']
-    let object = requestQueue[0]['object']
+    let color = requestQueue[0].color
+    let object = requestQueue[0].object
     console.log(`colour and object: ${ color } ${ object }`)
     console.log(`removing request: ${ requestQueue[0] }`)
     requestQueue.shift()
