@@ -11,12 +11,14 @@ app.use(bodyParser.json({type: 'application/json'}))
 var server = http.createServer(app)
 server.listen(PORT, () => console.log(`Listening on ${ PORT }`))
 const io = socketIO(server)
-var queueArray = []
+var requestQueue = []
 var robotConnected = true
-//var robotConnected = true
+//var robotConnected = false
 
+//io.on('connection', (socket) => {
+//app.post('/webhook', function (request, response) {
 // Triggered by a POST to /webhook 
-app.post('/webhook', function (request, response) {
+app.post('/webhook', (request, response) => {
   console.log('Request headers: ' + JSON.stringify(request.headers))
   console.log('Request body: ' + JSON.stringify(request.body))
   console.log('')
@@ -52,7 +54,7 @@ app.post('/webhook', function (request, response) {
       },
       // An intent to send Fetchy a request
       // Parameters from dialogflow are unpacked, and packed into a new object-
-      // -to be sent back to Dialogflow, to Fetchy and put into the request queue (queueArray)
+      // -to be sent back to Dialogflow, to Fetchy and put into the request queue (requestQueue)
       // io.emit('request', responseJson); is used to send the request to Fetchy , and by cups i actually mean boxes
       'bring.object': () => {
           if (!robotConnected) {
@@ -111,13 +113,13 @@ app.post('/webhook', function (request, response) {
           //responseJson.contextOut = outgoingContexts;
       },
       // An intent to remove the first request in the request queue
-      // queueArray contains an ordered list of requests for Fetchy to perform
+      // requestQueue contains an ordered list of requests for Fetchy to perform
       'cancel.request': () => {
           if (!robotConnected) {
               sendNotConnected()
               return
           }
-          if (queueArray[0] == null) {
+          if (requestQueue[0] == null) {
                console.log('No requests to abort')
                responseJson.speech = 'No requests to abort'
                responseJson.displayText = 'No requests to abort'
@@ -137,7 +139,7 @@ app.post('/webhook', function (request, response) {
               sendNotConnected()
               return
           }
-          if (queueArray[0] == null) {
+          if (requestQueue[0] == null) {
               console.log('No requests to abort')
               responseJson.speech = 'No requests to abort'
               responseJson.displayText = 'No requests to abort'
@@ -175,30 +177,30 @@ function sendNotConnected() {
 function addToRequestQueue (resp){
     resp = JSON.stringify(resp)
     console.log(`adding to request queue: ${ resp }`)
-    queueArray = queueArray.concat(resp)
-    console.log(`current items in queueArray after add: ${ queueArray }`)
+    requestQueue = requestQueue.concat(resp)
+    console.log(`current items in requestQueue after add: ${ requestQueue }`)
     console.log('')
 }
 
 function abortRequest (){
-    console.log(`removing request: ${ queueArray[0] }`)
-    queueArray.shift()
-    console.log(`current items in queueArray after abort: ${ queueArray }`)
+    console.log(`removing request: ${ requestQueue[0] }`)
+    requestQueue.shift()
+    console.log(`current items in requestQueue after abort: ${ requestQueue }`)
     console.log('')
 }
 
 function abortAllRequests (){
     console.log('removing all requests')
-    queueArray = []
-    console.log(`current items in queueArray after abort all requests: ${ queueArray }`)
+    requestQueue = []
+    console.log(`current items in requestQueue after abort all requests: ${ requestQueue }`)
     console.log('')
 }
 
 function requestCompletion (){
-    console.log(`Fetchy completed: ${ queueArray[0] }`)
-    queueArray.shift()
+    console.log(`Fetchy completed: ${ requestQueue[0] }`)
+    requestQueue.shift()
     console.log('request removed')
-    console.log(`current items in queueArray: ${ queueArray }`)
+    console.log(`current items in requestQueue: ${ requestQueue }`)
     console.log('')
   }
 
