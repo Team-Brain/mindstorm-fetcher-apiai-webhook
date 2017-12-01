@@ -116,7 +116,9 @@ app.post('/webhook', (request, response) => {
                response.json(responseJson)
            }
            else {
-               color, object = abortRequest()
+               let color = requestQueue[0].color
+               let object = requestQueue[0].object
+               abortRequest()
                responseJson.speech = `I am aborting the request, bring me the  ${ color } ${ object }`
                responseJson.displayText = `I am aborting the request, bring me the  ${ color } ${ object }`
                response.json(responseJson)
@@ -173,8 +175,6 @@ function addToRequestQueue (resp){
 }
 
 function abortRequest (){
-    let color = requestQueue[0].color
-    let object = requestQueue[0].object
     console.log(`removing request: ${ requestQueue[0] }`)
     requestQueue.shift()
     console.log(`current items in requestQueue after abort: ${ requestQueue }`)
