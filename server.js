@@ -76,10 +76,7 @@ app.post('/webhook', (request, response) => {
                 requestJson.timestamp = new Date()
 
                 addToRequestQueue(requestJson)
-                if (performingRequest == false) {
-                    io.emit('task', requestJson)
-                    performingRequest == true
-                }
+                emitTask()
 
             } else {
                 console.log(`Unrecognised object in request: ${object}`)
@@ -184,7 +181,6 @@ function abortRequest() {
     requestQueue.shift()
     console.log(`current items in requestQueue after abort: ${requestQueue}`)
     console.log('')
-    return
 }
 
 function abortAllRequests() {
@@ -205,7 +201,7 @@ function finishedTask() {
 }
 
 function emitTask() {
-    if (performingRequest == false) {
+    if (performingRequest == false && requestQueue[0] != null) {
         io.emit('task', requestQueue[0])
         performingRequest == true
     }
