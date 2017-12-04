@@ -62,7 +62,7 @@ app.post('/webhook', (request, response) => {
                 sendNotConnected()
                 return
             }
-            
+
             let color = parameters['color']
             let object = parameters['object']
             if (object === 'cup') {
@@ -75,7 +75,7 @@ app.post('/webhook', (request, response) => {
                 requestJson.timestamp = new Date()
 
                 addToRequestQueue(requestJson)
-                io.emit('request', requestJson)
+                io.emit('task', requestJson)
 
             } else {
                 console.log(`Unrecognised object in request: ${object}`)
@@ -118,7 +118,7 @@ app.post('/webhook', (request, response) => {
                 responseJson.displayText = 'There are no requests to abort'
                 response.json(responseJson)
             } else {
-                abortRequest()
+                //abortRequest()
                 responseJson.speech = `I am aborting the current request`
                 responseJson.displayText = `I am aborting the current request`
                 response.json(responseJson)
@@ -155,14 +155,14 @@ app.post('/webhook', (request, response) => {
     // Matches the action to a action handler
     actionHandlers[action]()
 
-function sendNotConnected() {
-    let responseJson = {}
-    console.log('Fetchy is not connected')
-    console.log(' ')
-    responseJson.speech = 'Fetchy is not connected or initialised, please connect Fetchy'
-    responseJson.displayText = 'Fetchy is not connected or initialised, please connect Fetchy'
-    response.json(responseJson)
-}
+    function sendNotConnected() {
+        let responseJson = {}
+        console.log('Fetchy is not connected')
+        console.log(' ')
+        responseJson.speech = 'Fetchy is not connected or initialised, please connect Fetchy'
+        responseJson.displayText = 'Fetchy is not connected or initialised, please connect Fetchy'
+        response.json(responseJson)
+    }
 
 })
 
@@ -189,22 +189,24 @@ function abortAllRequests() {
     console.log('')
 }
 
-function completeRequest() {
-    console.log(`Fetchy completed: ${requestQueue[0]}`)
+function finishedTask() {
+    console.log(`Fetchy finished task: ${requestQueue[0]}`)
     requestQueue.shift()
     console.log('request removed')
     console.log(`current items in requestQueue: ${requestQueue}`)
     console.log('')
 }
 
+
 io.on('connection', (socket) => {
     console.log('Client connected')
     robotConnected = true
 
-    socket.on('request_completed', () => {
+    socket.on('task_finished', () => {
         console.log('Fetchy completed a request')
         completeRequest()
     })
+
     socket.on('disconnect', () => {
         console.log('Client disconnected')
         //robotConnected = false
