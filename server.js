@@ -17,6 +17,7 @@ var requestQueue = []
 // 
 var robotConnected = true
 //var robotConnected = false
+var performingRequest = false
 
 // Triggered by a POST to /webhook 
 app.post('/webhook', (request, response) => {
@@ -75,7 +76,10 @@ app.post('/webhook', (request, response) => {
                 requestJson.timestamp = new Date()
 
                 addToRequestQueue(requestJson)
-                io.emit('task', requestJson)
+                if (performingRequest == false) {
+                    io.emit('task', requestJson)
+                    performingRequest == true
+                }
 
             } else {
                 console.log(`Unrecognised object in request: ${object}`)
@@ -174,6 +178,7 @@ function addToRequestQueue(request) {
     console.log('')
 }
 
+// currently commented out
 function abortRequest() {
     console.log(`removing request: ${requestQueue[0]}`)
     requestQueue.shift()
@@ -193,10 +198,17 @@ function finishedTask() {
     console.log(`Fetchy finished task: ${requestQueue[0]}`)
     requestQueue.shift()
     console.log('request removed')
+    performingRequest = false
     console.log(`current items in requestQueue: ${requestQueue}`)
     console.log('')
 }
 
+function emitTask() {
+    if (performingRequest == false) {
+        io.emit('task', requestQueue[0])
+        performingRequest == true
+    }
+}
 
 io.on('connection', (socket) => {
     console.log('Client connected')
