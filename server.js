@@ -143,7 +143,7 @@ app.post('/webhook', (request, response) => {
                 responseJson.displayText = 'I am aborting'
                 response.json(responseJson)
                 abortAllRequests()
-                io.emit('abort_all')
+                io.emit('abort')
             }
         }
     }
@@ -185,7 +185,7 @@ function abortRequest() {
 
 function abortAllRequests() {
     console.log('removing all requests')
-    requestQueue = []
+    requestQueue = [requestQueue[0]]
     console.log(`current items in requestQueue after abort all requests: ${requestQueue}`)
     console.log('')
 }
