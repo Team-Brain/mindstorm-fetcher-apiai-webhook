@@ -8,7 +8,7 @@ const bodyParser = require('body-parser')
 const PORT = process.env.PORT || 3000
 const app = express()
 app.use(bodyParser.json({ type: 'application/json' }))
-var server = http.createServer(app)
+const server = http.createServer(app)
 server.listen(PORT, () => console.log(`Listening on ${PORT}`))
 const io = socketIO(server)
 
