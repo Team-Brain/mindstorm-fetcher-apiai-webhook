@@ -200,6 +200,7 @@ function finishedTask() {
     console.log('request removed')
     performingRequest = false
     console.log(`current items in requestQueue: ${requestQueue}`)
+    emitTask()
     console.log('')
 }
 
