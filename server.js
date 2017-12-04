@@ -204,7 +204,7 @@ io.on('connection', (socket) => {
 
     socket.on('task_finished', () => {
         console.log('Fetchy completed a request')
-        completeRequest()
+        finishedTask()
     })
 
     socket.on('disconnect', () => {
