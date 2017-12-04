@@ -57,7 +57,7 @@ app.post('/webhook', (request, response) => {
         // The first if checks if the robot is connected and notifies the user if it is not connected
         // Parameters from dialogflow are unpacked, and packed into a new object-
         // -to be sent back to Dialogflow, to Fetchy and put into the request queue (requestQueue)
-        // io.emit('request', responseJson); is used to send the request to Fetchy , and by cups i actually mean boxes
+        // io.emit('request', responseJson)
         'bring_object': () => {
             if (!robotConnected) {
                 sendNotConnected()
@@ -66,7 +66,7 @@ app.post('/webhook', (request, response) => {
 
             let color = parameters['color']
             let object = parameters['object']
-            if (object === 'cup') {
+            if (object === 'box') {
                 responseJson.speech = `Bringing the ${color} ${object}.`
                 responseJson.displayText = `Bringing the ${color} ${object}.`
 
@@ -80,8 +80,8 @@ app.post('/webhook', (request, response) => {
 
             } else {
                 console.log(`Unrecognised object in request: ${object}`)
-                responseJson.speech = `I do not understand your requested object. I can only fetch cups, and by cups i actually mean boxes`
-                responseJson.displayText = `I do not understand your requested object. I can only fetch cups, and by cups i actually mean boxes`
+                responseJson.speech = `I do not understand your requested object. I can only fetch boxes`
+                responseJson.displayText = `I do not understand your requested object. I can only fetch boxes`
             }
 
             response.json(responseJson)
