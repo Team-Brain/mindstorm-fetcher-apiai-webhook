@@ -13,7 +13,7 @@ server.listen(PORT, () => console.log(`Listening on ${PORT}`))
 const io = socketIO(server)
 
 // Ordered list of requests for Fetchy to perform
-var requestQueue = []
+var taskQueue = []
 // 
 var robotConnected = true
 //var robotConnected = false
@@ -21,8 +21,8 @@ var performingRequest = false
 
 // Triggered by a POST to /webhook 
 app.post('/webhook', (request, response) => {
-    console.log('Request headers: ' + JSON.stringify(request.headers))
-    console.log('Request body: ' + JSON.stringify(request.body))
+    //console.log('Request headers: ' + JSON.stringify(request.headers))
+    //console.log('Request body: ' + JSON.stringify(request.body))
     console.log('')
 
     // An action is a string used to identify what tasks needs to be done
@@ -36,7 +36,7 @@ app.post('/webhook', (request, response) => {
 
     // Contexts are objects used to track and store conversation state and are identified by strings.
     const contexts = JSON.stringify(request.body.result.contexts)
-    console.log('result contexts: ' + contexts)
+    //console.log('result contexts: ' + contexts)
     console.log('')
 
     // responseJSON is used to send back to dialogflow
@@ -56,8 +56,8 @@ app.post('/webhook', (request, response) => {
         // An intent to send Fetchy a request
         // The first if checks if the robot is connected and notifies the user if it is not connected
         // Parameters from dialogflow are unpacked, and packed into a new object-
-        // -to be sent back to Dialogflow, to Fetchy and put into the request queue (requestQueue)
-        // io.emit('request', responseJson)
+        // -to be sent back to Dialogflow, to Fetchy and put into the request queue (taskQueue)
+        // io.emit('task', responseJson)
         'bring_object': () => {
             if (!robotConnected) {
                 sendNotConnected()
@@ -75,7 +75,7 @@ app.post('/webhook', (request, response) => {
                 requestJson.object = object
                 requestJson.timestamp = new Date()
 
-                addToRequestQueue(requestJson)
+                addToTaskQueue(requestJson)
                 emitTask()
 
             } else {
@@ -113,7 +113,7 @@ app.post('/webhook', (request, response) => {
                 sendNotConnected()
                 return
             }
-            if (requestQueue[0] == null) {
+            if (taskQueue[0] == null) {
                 console.log('No requests to abort')
                 responseJson.speech = 'There are no requests to abort'
                 responseJson.displayText = 'There are no requests to abort'
@@ -132,7 +132,7 @@ app.post('/webhook', (request, response) => {
                 sendNotConnected()
                 return
             }
-            if (requestQueue[0] == null) {
+            if (taskQueue[0] == null) {
                 console.log('No requests to abort')
                 responseJson.speech = 'No requests to abort'
                 responseJson.displayText = 'No requests to abort'
@@ -167,42 +167,42 @@ app.post('/webhook', (request, response) => {
 
 })
 
-function addToRequestQueue(request) {
+function addToTaskQueue(request) {
     request = JSON.stringify(request)
     console.log(`adding to request queue: ${request}`)
-    requestQueue = requestQueue.concat(request)
-    console.log(`current items in requestQueue after add: ${requestQueue}`)
+    taskQueue = taskQueue.concat(request)
+    console.log(`current items in taskQueue after add: ${taskQueue}`)
     console.log('')
 }
 
 // currently commented out
 function abortRequest() {
-    console.log(`removing request: ${requestQueue[0]}`)
-    requestQueue.shift()
-    console.log(`current items in requestQueue after abort: ${requestQueue}`)
+    console.log(`removing request: ${taskQueue[0]}`)
+    taskQueue.shift()
+    console.log(`current items in taskQueue after abort: ${taskQueue}`)
     console.log('')
 }
 
 function abortAllRequests() {
     console.log('removing all requests')
-    requestQueue = [requestQueue[0]]
-    console.log(`current items in requestQueue after abort all requests: ${requestQueue}`)
+    taskQueue = [taskQueue[0]]
+    console.log(`current items in taskQueue after abort all requests: ${taskQueue}`)
     console.log('')
 }
 
 function finishedTask() {
-    console.log(`Fetchy finished task: ${requestQueue[0]}`)
-    requestQueue.shift()
+    console.log(`Fetchy finished task: ${taskQueue[0]}`)
+    taskQueue.shift()
     console.log('request removed')
     performingRequest = false
-    console.log(`current items in requestQueue: ${requestQueue}`)
+    console.log(`current items in taskQueue: ${taskQueue}`)
     emitTask()
     console.log('')
 }
 
 function emitTask() {
-    if (performingRequest == false && requestQueue[0] != null) {
-        io.emit('task', requestQueue[0])
+    if (performingRequest == false && taskQueue[0] != null) {
+        io.emit('task', taskQueue[0])
         performingRequest == true
     }
 }
@@ -218,7 +218,7 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
         console.log('Client disconnected')
-        requestQueue = []
+        taskQueue = []
         //robotConnected = false
     })
 })
