@@ -22,7 +22,7 @@ var performingRequest = false
 // Triggered by a POST to /webhook 
 app.post('/webhook', (request, response) => {
     //console.log('Request headers: ' + JSON.stringify(request.headers))
-    //console.log('Request body: ' + JSON.stringify(request.body))
+    console.log('Request body: ' + JSON.stringify(request.body))
     console.log('')
 
     // An action is a string used to identify what tasks needs to be done
