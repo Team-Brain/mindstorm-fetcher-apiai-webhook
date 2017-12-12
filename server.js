@@ -89,8 +89,8 @@ app.post('/webhook', (request, response) => {
         },
         // An intent to tell the user what he is capable of
         'abilities': () => {
-            responseJson.speech = 'I can fetch you items, for example. I can fetch a red box, or a black box, potentially even a green box. please do not ask me to fetch a blue box, my sensor struggles to sense it'
-            responseJson.displayText = 'I can fetch you items, for example. I can fetch a red box, or a black box, potentially even a green box. please do not ask me to fetch a blue box, my sensor struggles to sense it'
+            responseJson.speech = 'I can fetch you items, with the command, bring me my coloured object. for example. I can fetch a red box. you can abort my current request by saying, cancel my request, or you can abort all my request by saying, cancel all my requests. just please dont ask me about my purpose'
+            responseJson.displayText = 'I can fetch you items, with the command, bring me my coloured object. for example. I can fetch a red box. you can abort my current request by saying, cancel my request, or you can abort all my request by saying, cancel all my requests. just please dont ask me about my purpose'
             response.json(responseJson)
         },
         // An intent to tell the users his purpose
