@@ -210,6 +210,7 @@ function emitTask() {
 
 io.on('connection', (socket) => {
     console.log('Client connected')
+    console.log(`whats in socket: ${socket}`)
     robotConnected = true
 
     socket.on('task_finished', () => {
