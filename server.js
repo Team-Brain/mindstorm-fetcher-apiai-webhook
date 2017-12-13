@@ -115,6 +115,7 @@ app.post('/webhook', (request, response) => {
             }
             if (taskQueue[0] == null) {
                 console.log('No requests to abort')
+                console.log(`Here is the task queue: ${taskQueue[0]}`)
                 responseJson.speech = 'There are no requests to abort'
                 responseJson.displayText = 'There are no requests to abort'
                 response.json(responseJson)
