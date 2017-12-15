@@ -55,10 +55,10 @@
 					"raw": "{\"id\":\"df239662-69f1-4d8e-bc32-18eeded6ab16\",\"timestamp\":\"2017-12-12T09:50:38.764Z\",\"lang\":\"en\",\"result\":{\"source\":\"agent\",\"resolvedQuery\":\"bring me the red box\",\"speech\":\"\",\"action\":\"bring_object\",\"actionIncomplete\":false,\"parameters\":{\"color\":\"red\",\"object\":\"box\"},\"contexts\":[],\"metadata\":{\"intentId\":\"df129c65-9c06-4d58-9ba1-b839866c9aae\",\"webhookUsed\":\"true\",\"webhookForSlotFillingUsed\":\"false\",\"intentName\":\"Bring object\"},\"fulfillment\":{\"speech\":\"\",\"messages\":[]},\"score\":1},\"status\":{\"code\":200,\"errorType\":\"success\",\"webhookTimedOut\":false},\"sessionId\":\"56cadae9-65a6-43c3-9ce2-15e63d618689\"}"
 				},
 				"url": {
-					"raw": "https://fetchy-dialogflow-webhook.herokuapp.com/webhook",
+					"raw": "https://fetchy-webhook-staging.herokuapp.com/webhook",
 					"protocol": "https",
 					"host": [
-						"fetchy-dialogflow-webhook",
+						"fetchy-webhook-staging",
 						"herokuapp",
 						"com"
 					],
@@ -119,10 +119,10 @@
 					"raw": "{\"id\":\"df239662-69f1-4d8e-bc32-18eeded6ab16\",\"timestamp\":\"2017-12-12T09:50:38.764Z\",\"lang\":\"en\",\"result\":{\"source\":\"agent\",\"resolvedQuery\":\"bring me the red box\",\"speech\":\"\",\"action\":\"bring_object\",\"actionIncomplete\":false,\"parameters\":{\"color\":\"red\",\"object\":\"box\"},\"contexts\":[],\"metadata\":{\"intentId\":\"df129c65-9c06-4d58-9ba1-b839866c9aae\",\"webhookUsed\":\"true\",\"webhookForSlotFillingUsed\":\"false\",\"intentName\":\"Bring object\"},\"fulfillment\":{\"speech\":\"\",\"messages\":[]},\"score\":1},\"status\":{\"code\":200,\"errorType\":\"success\",\"webhookTimedOut\":false},\"sessionId\":\"56cadae9-65a6-43c3-9ce2-15e63d618689\"}"
 				},
 				"url": {
-					"raw": "https://fetchy-dialogflow-webhook.herokuapp.com/webhook",
+					"raw": "https://fetchy-webhook-staging.herokuapp.com/webhook",
 					"protocol": "https",
 					"host": [
-						"fetchy-dialogflow-webhook",
+						"fetchy-webhook-staging",
 						"herokuapp",
 						"com"
 					],
@@ -181,10 +181,10 @@
 					"raw": "{\"id\":\"158b72af-d695-4156-859e-3084ba84c8a5\",\"timestamp\":\"2017-12-12T13:33:16.51Z\",\"lang\":\"en\",\"result\":{\"source\":\"agent\",\"resolvedQuery\":\"abort my request\",\"speech\":\"\",\"action\":\"cancel_current\",\"actionIncomplete\":false,\"parameters\":{},\"contexts\":[],\"metadata\":{\"intentId\":\"a368f9bf-2c1d-4cf3-85bd-a8043926e23f\",\"webhookUsed\":\"true\",\"webhookForSlotFillingUsed\":\"false\",\"intentName\":\"Cancel current task\"},\"fulfillment\":{\"speech\":\"\",\"messages\":[{\"type\":0,\"speech\":\"\"}]},\"score\":0.5699999928474426},\"status\":{\"code\":200,\"errorType\":\"success\",\"webhookTimedOut\":false},\"sessionId\":\"56cadae9-65a6-43c3-9ce2-15e63d618689\"}"
 				},
 				"url": {
-					"raw": "https://fetchy-dialogflow-webhook.herokuapp.com/webhook",
+					"raw": "https://fetchy-webhook-staging.herokuapp.com/webhook",
 					"protocol": "https",
 					"host": [
-						"fetchy-dialogflow-webhook",
+						"fetchy-webhook-staging",
 						"herokuapp",
 						"com"
 					],
@@ -242,10 +242,10 @@
 					"raw": "{\"id\":\"481d0235-beba-4385-83e7-94d12c6a6eb2\",\"timestamp\":\"2017-12-12T13:33:47.682Z\",\"lang\":\"en\",\"result\":{\"source\":\"agent\",\"resolvedQuery\":\"abort all my requests\",\"speech\":\"\",\"action\":\"cancel_all\",\"actionIncomplete\":false,\"parameters\":{},\"contexts\":[],\"metadata\":{\"intentId\":\"c0e3bddb-6bcc-44e4-b86f-7d898a1d2246\",\"webhookUsed\":\"true\",\"webhookForSlotFillingUsed\":\"false\",\"intentName\":\"Cancel all tasks\"},\"fulfillment\":{\"speech\":\"\",\"messages\":[{\"type\":0,\"speech\":\"\"}]},\"score\":1},\"status\":{\"code\":200,\"errorType\":\"success\",\"webhookTimedOut\":false},\"sessionId\":\"56cadae9-65a6-43c3-9ce2-15e63d618689\"}"
 				},
 				"url": {
-					"raw": "https://fetchy-dialogflow-webhook.herokuapp.com/webhook",
+					"raw": "https://fetchy-webhook-staging.herokuapp.com/webhook",
 					"protocol": "https",
 					"host": [
-						"fetchy-dialogflow-webhook",
+						"fetchy-webhook-staging",
 						"herokuapp",
 						"com"
 					],
@@ -305,10 +305,10 @@
 					"raw": "{\"id\":\"ed31bda2-7622-446c-8ded-bb4b9ee42c68\",\"timestamp\":\"2017-12-12T13:34:27.739Z\",\"lang\":\"en\",\"result\":{\"source\":\"agent\",\"resolvedQuery\":\"what can you do\",\"speech\":\"\",\"action\":\"abilities\",\"actionIncomplete\":false,\"parameters\":{},\"contexts\":[],\"metadata\":{\"intentId\":\"6767d357-37f0-49f2-be0d-2cd8f3910437\",\"webhookUsed\":\"true\",\"webhookForSlotFillingUsed\":\"false\",\"intentName\":\"Fetchys capabilities\"},\"fulfillment\":{\"speech\":\"\",\"messages\":[{\"type\":0,\"speech\":\"\"}]},\"score\":1},\"status\":{\"code\":200,\"errorType\":\"success\",\"webhookTimedOut\":false},\"sessionId\":\"56cadae9-65a6-43c3-9ce2-15e63d618689\"}"
 				},
 				"url": {
-					"raw": "https://fetchy-dialogflow-webhook.herokuapp.com/webhook",
+					"raw": "https://fetchy-webhook-staging.herokuapp.com/webhook",
 					"protocol": "https",
 					"host": [
-						"fetchy-dialogflow-webhook",
+						"fetchy-webhook-staging",
 						"herokuapp",
 						"com"
 					],
