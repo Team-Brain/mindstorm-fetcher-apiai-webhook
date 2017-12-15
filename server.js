@@ -15,8 +15,8 @@ const io = socketIO(server)
 // Ordered list of requests for Fetchy to perform
 var taskQueue = []
 // 
-var robotConnected = true
-//var robotConnected = false
+//var robotConnected = true
+var robotConnected = false
 var performingRequest = false
 
 // Triggered by a POST to /webhook 
