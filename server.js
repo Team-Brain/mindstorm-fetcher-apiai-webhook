@@ -12,7 +12,7 @@ const server = http.createServer(app)
 server.listen(PORT, () => console.log(`Listening on ${PORT}`))
 const io = socketIO(server)
 
-const is_travis = process.env.TRAVIS
+const is_travis = process.env.TRAVIS === 'true'
 
 // Ordered list of requests for Fetchy to perform
 var taskQueue = []
