@@ -224,6 +224,6 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('Client disconnected')
         taskQueue = []
-        //robotConnected = false
+        robotConnected = false
     })
 })
