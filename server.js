@@ -61,6 +61,7 @@ app.post('/webhook', (request, response) => {
         // -to be sent back to Dialogflow, to Fetchy and put into the request queue (taskQueue)
         // io.emit('task', responseJson)
         'bring_object': () => {
+            console.log(`robot connected status: ${robotConnected}`)
             if (!robotConnected) {
                 sendNotConnected()
                 return
