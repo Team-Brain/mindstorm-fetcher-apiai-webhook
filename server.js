@@ -12,11 +12,13 @@ const server = http.createServer(app)
 server.listen(PORT, () => console.log(`Listening on ${PORT}`))
 const io = socketIO(server)
 
+const is_travis = process.env.TRAVIS
+
 // Ordered list of requests for Fetchy to perform
 var taskQueue = []
 // 
 //var robotConnected = true
-var robotConnected = false
+var robotConnected = false || is_travis
 var performingRequest = false
 
 // Triggered by a POST to /webhook 
