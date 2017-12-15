@@ -1,10 +1,8 @@
 {
-	"variables": [],
 	"info": {
 		"name": "fetchy_webhook_tests",
-		"_postman_id": "e8fb33cd-99f5-c624-91ea-0c1ca1f781d7",
-		"description": "",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+		"_postman_id": "e7a6ef1f-0412-c797-fd7a-be725030abde",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -15,9 +13,9 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"var jsonData = JSON.parse(responseBody);\r",
+							"const jsonData = JSON.parse(responseBody);\r",
 							"\r",
-							"var schema = {\r",
+							"const schema = {\r",
 							"    \"type\": \"object\",\r",
 							"    \"properties\": {\r",
 							"        \"speech\" : {\r",
@@ -31,32 +29,43 @@
 							"    \"required\": [ \"speech\", \"displayText\"]\r",
 							"}\r",
 							"\r",
-							"tests[\"Testing schema\"] = tv4.validate(jsonData, schema);\r",
-							"console.log(\"Validation errors: \", tv4.error);\r",
-							"\r",
-							"tests[\"Body contains correct intent string\"] = responseBody.has(\"Bringing the red box\");\r",
-							"tests[\"Response time is less than 200ms\"] = responseTime < 200;\r",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
-							"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json; charset=utf-8\";"
+							"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") \r",
+							"    == \"application/json; charset=utf-8\";\r",
+							"\r",
+							"tests[\"Valid schema\"] = tv4.validate(jsonData, schema);\r",
+							"console.log(\"Validation errors: \", tv4.error);\r",
+							"tests[\"Valid response\"] = responseBody.has(\"Bringing the red box\");\r",
+							"\r",
+							""
 						]
 					}
 				}
 			],
 			"request": {
-				"url": "https://fetchy-dialogflow-webhook.herokuapp.com/webhook",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\"id\":\"df239662-69f1-4d8e-bc32-18eeded6ab16\",\"timestamp\":\"2017-12-12T09:50:38.764Z\",\"lang\":\"en\",\"result\":{\"source\":\"agent\",\"resolvedQuery\":\"bring me the red box\",\"speech\":\"\",\"action\":\"bring_object\",\"actionIncomplete\":false,\"parameters\":{\"color\":\"red\",\"object\":\"box\"},\"contexts\":[],\"metadata\":{\"intentId\":\"df129c65-9c06-4d58-9ba1-b839866c9aae\",\"webhookUsed\":\"true\",\"webhookForSlotFillingUsed\":\"false\",\"intentName\":\"Bring object\"},\"fulfillment\":{\"speech\":\"\",\"messages\":[]},\"score\":1},\"status\":{\"code\":200,\"errorType\":\"success\",\"webhookTimedOut\":false},\"sessionId\":\"56cadae9-65a6-43c3-9ce2-15e63d618689\"}"
 				},
-				"description": ""
+				"url": {
+					"raw": "https://fetchy-dialogflow-webhook.herokuapp.com/webhook",
+					"protocol": "https",
+					"host": [
+						"fetchy-dialogflow-webhook",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"webhook"
+					]
+				}
 			},
 			"response": []
 		},
@@ -68,9 +77,9 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"var jsonData = JSON.parse(responseBody);\r",
+							"const jsonData = JSON.parse(responseBody);\r",
 							"\r",
-							"var schema = {\r",
+							"const schema = {\r",
 							"    \"type\": \"object\",\r",
 							"    \"properties\": {\r",
 							"        \"speech\" : {\r",
@@ -84,32 +93,43 @@
 							"    \"required\": [ \"speech\", \"displayText\"]\r",
 							"}\r",
 							"\r",
-							"tests[\"Testing schema\"] = tv4.validate(jsonData, schema);\r",
-							"console.log(\"Validation errors: \", tv4.error);\r",
-							"\r",
-							"tests[\"Body contains correct intent string\"] = responseBody.has(\"Bringing the red box\");\r",
-							"tests[\"Response time is less than 200ms\"] = responseTime < 200;\r",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
-							"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json; charset=utf-8\";"
+							"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") \r",
+							"    == \"application/json; charset=utf-8\";\r",
+							"\r",
+							"tests[\"Valid schema\"] = tv4.validate(jsonData, schema);\r",
+							"console.log(\"Validation errors: \", tv4.error);\r",
+							"tests[\"Valid response\"] = responseBody.has(\"Bringing the red box\");\r",
+							"\r",
+							""
 						]
 					}
 				}
 			],
 			"request": {
-				"url": "https://fetchy-dialogflow-webhook.herokuapp.com/webhook",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\"id\":\"df239662-69f1-4d8e-bc32-18eeded6ab16\",\"timestamp\":\"2017-12-12T09:50:38.764Z\",\"lang\":\"en\",\"result\":{\"source\":\"agent\",\"resolvedQuery\":\"bring me the red box\",\"speech\":\"\",\"action\":\"bring_object\",\"actionIncomplete\":false,\"parameters\":{\"color\":\"red\",\"object\":\"box\"},\"contexts\":[],\"metadata\":{\"intentId\":\"df129c65-9c06-4d58-9ba1-b839866c9aae\",\"webhookUsed\":\"true\",\"webhookForSlotFillingUsed\":\"false\",\"intentName\":\"Bring object\"},\"fulfillment\":{\"speech\":\"\",\"messages\":[]},\"score\":1},\"status\":{\"code\":200,\"errorType\":\"success\",\"webhookTimedOut\":false},\"sessionId\":\"56cadae9-65a6-43c3-9ce2-15e63d618689\"}"
 				},
-				"description": ""
+				"url": {
+					"raw": "https://fetchy-dialogflow-webhook.herokuapp.com/webhook",
+					"protocol": "https",
+					"host": [
+						"fetchy-dialogflow-webhook",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"webhook"
+					]
+				}
 			},
 			"response": []
 		},
@@ -121,9 +141,9 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"var jsonData = JSON.parse(responseBody);\r",
+							"const jsonData = JSON.parse(responseBody);\r",
 							"\r",
-							"var schema = {\r",
+							"const schema = {\r",
 							"    \"type\": \"object\",\r",
 							"    \"properties\": {\r",
 							"        \"speech\" : {\r",
@@ -137,32 +157,41 @@
 							"    \"required\": [ \"speech\", \"displayText\"]\r",
 							"}\r",
 							"\r",
-							"tests[\"Testing schema\"] = tv4.validate(jsonData, schema);\r",
-							"console.log(\"Validation errors: \", tv4.error);\r",
-							"\r",
-							"tests[\"Body contains correct intent string\"] = responseBody.has(\"I am aborting the current request\");\r",
-							"tests[\"Response time is less than 200ms\"] = responseTime < 200;\r",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
-							"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json; charset=utf-8\";"
+							"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json; charset=utf-8\";\r",
+							"\r",
+							"tests[\"Valid schema\"] = tv4.validate(jsonData, schema);\r",
+							"console.log(\"Validation errors: \", tv4.error);\r",
+							"tests[\"Valid response\"] = responseBody.has(\"I am aborting the current request\");\r",
+							""
 						]
 					}
 				}
 			],
 			"request": {
-				"url": "https://fetchy-dialogflow-webhook.herokuapp.com/webhook",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\"id\":\"158b72af-d695-4156-859e-3084ba84c8a5\",\"timestamp\":\"2017-12-12T13:33:16.51Z\",\"lang\":\"en\",\"result\":{\"source\":\"agent\",\"resolvedQuery\":\"abort my request\",\"speech\":\"\",\"action\":\"cancel_current\",\"actionIncomplete\":false,\"parameters\":{},\"contexts\":[],\"metadata\":{\"intentId\":\"a368f9bf-2c1d-4cf3-85bd-a8043926e23f\",\"webhookUsed\":\"true\",\"webhookForSlotFillingUsed\":\"false\",\"intentName\":\"Cancel current task\"},\"fulfillment\":{\"speech\":\"\",\"messages\":[{\"type\":0,\"speech\":\"\"}]},\"score\":0.5699999928474426},\"status\":{\"code\":200,\"errorType\":\"success\",\"webhookTimedOut\":false},\"sessionId\":\"56cadae9-65a6-43c3-9ce2-15e63d618689\"}"
 				},
-				"description": ""
+				"url": {
+					"raw": "https://fetchy-dialogflow-webhook.herokuapp.com/webhook",
+					"protocol": "https",
+					"host": [
+						"fetchy-dialogflow-webhook",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"webhook"
+					]
+				}
 			},
 			"response": []
 		},
@@ -174,9 +203,9 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"var jsonData = JSON.parse(responseBody);\r",
+							"const jsonData = JSON.parse(responseBody);\r",
 							"\r",
-							"var schema = {\r",
+							"const schema = {\r",
 							"    \"type\": \"object\",\r",
 							"    \"properties\": {\r",
 							"        \"speech\" : {\r",
@@ -190,32 +219,40 @@
 							"    \"required\": [ \"speech\", \"displayText\"]\r",
 							"}\r",
 							"\r",
-							"tests[\"Testing schema\"] = tv4.validate(jsonData, schema);\r",
-							"console.log(\"Validation errors: \", tv4.error);\r",
-							"\r",
-							"tests[\"Body contains correct intent string\"] = responseBody.has(\"I am aborting all requests\");\r",
-							"tests[\"Response time is less than 200ms\"] = responseTime < 200;\r",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
-							"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json; charset=utf-8\";"
+							"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json; charset=utf-8\";\r",
+							"\r",
+							"tests[\"Valid schema\"] = tv4.validate(jsonData, schema);\r",
+							"console.log(\"Validation errors: \", tv4.error);\r",
+							"tests[\"Valid response\"] = responseBody.has(\"I am aborting all requests\");"
 						]
 					}
 				}
 			],
 			"request": {
-				"url": "https://fetchy-dialogflow-webhook.herokuapp.com/webhook",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\"id\":\"481d0235-beba-4385-83e7-94d12c6a6eb2\",\"timestamp\":\"2017-12-12T13:33:47.682Z\",\"lang\":\"en\",\"result\":{\"source\":\"agent\",\"resolvedQuery\":\"abort all my requests\",\"speech\":\"\",\"action\":\"cancel_all\",\"actionIncomplete\":false,\"parameters\":{},\"contexts\":[],\"metadata\":{\"intentId\":\"c0e3bddb-6bcc-44e4-b86f-7d898a1d2246\",\"webhookUsed\":\"true\",\"webhookForSlotFillingUsed\":\"false\",\"intentName\":\"Cancel all tasks\"},\"fulfillment\":{\"speech\":\"\",\"messages\":[{\"type\":0,\"speech\":\"\"}]},\"score\":1},\"status\":{\"code\":200,\"errorType\":\"success\",\"webhookTimedOut\":false},\"sessionId\":\"56cadae9-65a6-43c3-9ce2-15e63d618689\"}"
 				},
-				"description": ""
+				"url": {
+					"raw": "https://fetchy-dialogflow-webhook.herokuapp.com/webhook",
+					"protocol": "https",
+					"host": [
+						"fetchy-dialogflow-webhook",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"webhook"
+					]
+				}
 			},
 			"response": []
 		},
@@ -227,9 +264,9 @@
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"var jsonData = JSON.parse(responseBody);\r",
+							"const jsonData = JSON.parse(responseBody);\r",
 							"\r",
-							"var schema = {\r",
+							"const schema = {\r",
 							"    \"type\": \"object\",\r",
 							"    \"properties\": {\r",
 							"        \"speech\" : {\r",
@@ -243,32 +280,42 @@
 							"    \"required\": [ \"speech\", \"displayText\"]\r",
 							"}\r",
 							"\r",
-							"tests[\"Testing schema\"] = tv4.validate(jsonData, schema);\r",
-							"console.log(\"Validation errors: \", tv4.error);\r",
-							"\r",
-							"tests[\"Body contains correct intent string\"] = responseBody.has(\"I can fetch you items, with the command, bring me my coloured object. for example. I can fetch a red box. you can abort my current request by saying, cancel my request, or you can abort all my request by saying, cancel all my requests. just please dont ask me about my purpose\");\r",
-							"tests[\"Response time is less than 200ms\"] = responseTime < 200;\r",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
-							"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json; charset=utf-8\";"
+							"tests[\"Content-Type is JSON\"] = postman.getResponseHeader(\"Content-Type\") == \"application/json; charset=utf-8\";\r",
+							"\r",
+							"tests[\"Valid schema\"] = tv4.validate(jsonData, schema);\r",
+							"console.log(\"Validation errors: \", tv4.error);\r",
+							"tests[\"Valid reponse\"] = responseBody.has(\"I can fetch you items, with the command, bring me my coloured object. for example. I can fetch a red box. you can abort my current request by saying, cancel my request, or you can abort all my request by saying, cancel all my requests. just please dont ask me about my purpose\");\r",
+							"\r",
+							""
 						]
 					}
 				}
 			],
 			"request": {
-				"url": "https://fetchy-dialogflow-webhook.herokuapp.com/webhook",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\"id\":\"ed31bda2-7622-446c-8ded-bb4b9ee42c68\",\"timestamp\":\"2017-12-12T13:34:27.739Z\",\"lang\":\"en\",\"result\":{\"source\":\"agent\",\"resolvedQuery\":\"what can you do\",\"speech\":\"\",\"action\":\"abilities\",\"actionIncomplete\":false,\"parameters\":{},\"contexts\":[],\"metadata\":{\"intentId\":\"6767d357-37f0-49f2-be0d-2cd8f3910437\",\"webhookUsed\":\"true\",\"webhookForSlotFillingUsed\":\"false\",\"intentName\":\"Fetchys capabilities\"},\"fulfillment\":{\"speech\":\"\",\"messages\":[{\"type\":0,\"speech\":\"\"}]},\"score\":1},\"status\":{\"code\":200,\"errorType\":\"success\",\"webhookTimedOut\":false},\"sessionId\":\"56cadae9-65a6-43c3-9ce2-15e63d618689\"}"
 				},
-				"description": ""
+				"url": {
+					"raw": "https://fetchy-dialogflow-webhook.herokuapp.com/webhook",
+					"protocol": "https",
+					"host": [
+						"fetchy-dialogflow-webhook",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"webhook"
+					]
+				}
 			},
 			"response": []
 		}
