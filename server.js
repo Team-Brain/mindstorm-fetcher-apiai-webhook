@@ -22,7 +22,7 @@ var robotConnected = true || is_staging
 var performingRequest = false
 
 // Triggered by a POST to /webhook 
-app.post('/webhook', (request, response) => {
+app.post('/api/v1/webhook', (request, response) => {
     //console.log('Request headers: ' + JSON.stringify(request.headers))
     //console.log('Request body: ' + JSON.stringify(request.body))
     //console.log('')
