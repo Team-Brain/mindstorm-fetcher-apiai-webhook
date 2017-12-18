@@ -19,7 +19,7 @@ var taskQueue = []
 // 
 var robotConnected = true || is_staging
 //var robotConnected = false || is_staging
-var performingRequest = false
+var performingTask = false
 
 // Triggered by a POST to /webhook 
 app.post('/api/v1/webhook', (request, response) => {
@@ -198,16 +198,16 @@ function finishedTask() {
     console.log(`Fetchy finished task: ${taskQueue[0]}`)
     taskQueue.shift()
     console.log('request removed')
-    performingRequest = false
+    performingTask = false
     console.log(`current items in taskQueue: ${taskQueue}`)
     emitTask()
     console.log('')
 }
 
 function emitTask() {
-    if (performingRequest == false && taskQueue[0] != null) {
+    if (performingTask == false && taskQueue[0] != null) {
         io.emit('task', taskQueue[0])
-        performingRequest == true
+        performingTask == true
     }
 }
 
