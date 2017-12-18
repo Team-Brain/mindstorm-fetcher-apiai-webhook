@@ -17,7 +17,7 @@ const is_staging = process.env.ENV === 'STAGING'
 // Ordered list of requests for Fetchy to perform
 var taskQueue = []
 // 
-//var robotConnected = true || is_staging
+var robotConnected = true || is_staging
 //var robotConnected = false || is_staging
 var performingRequest = false
 
