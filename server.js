@@ -17,15 +17,15 @@ const is_staging = process.env.ENV === 'STAGING'
 // Ordered list of requests for Fetchy to perform
 var taskQueue = []
 // 
-//var robotConnected = true
-var robotConnected = false || is_staging
+//var robotConnected = true || is_staging
+//var robotConnected = false || is_staging
 var performingRequest = false
 
 // Triggered by a POST to /webhook 
 app.post('/webhook', (request, response) => {
     //console.log('Request headers: ' + JSON.stringify(request.headers))
-    console.log('Request body: ' + JSON.stringify(request.body))
-    console.log('')
+    //console.log('Request body: ' + JSON.stringify(request.body))
+    //console.log('')
 
     // An action is a string used to identify what tasks needs to be done
     // in fulfillment usally based on the corresponding intent.
@@ -213,7 +213,6 @@ function emitTask() {
 
 io.on('connection', (socket) => {
     console.log('Client connected')
-    console.log(`whats in socket: ${socket}`)
     robotConnected = true
 
     socket.on('task_finished', () => {
@@ -224,6 +223,6 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('Client disconnected')
         taskQueue = []
-        robotConnected = false
+        //robotConnected = false
     })
 })
