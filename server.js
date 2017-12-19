@@ -79,7 +79,7 @@ app.post('/api/v1/webhook', (request, response) => {
                 requestJson.object = object
                 requestJson.timestamp = new Date()
                 console.log(`time to string`)
-                requestStringed = JSON.stringify(requestJson)
+                var requestStringed = JSON.stringify(requestJson)
                 console.log(`before i create a hash`)
                 var hash_id = crypto.createHash('md5').update(requestStringed).digest('hex');
                 console.log(`created the hash id : ${hash_id}`)
