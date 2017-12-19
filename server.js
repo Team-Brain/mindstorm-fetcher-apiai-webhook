@@ -17,7 +17,7 @@ http.listen(PORT, () => console.log(`Listening on ${PORT}`))
 
 // Ordered list of requests for Fetchy to perform
 var taskQueue = []
- 
+
 // Triggered by a POST to /webhook 
 app.post('/api/v1/webhook', (request, response) => {
     //console.log('Request headers: ' + JSON.stringify(request.headers))
@@ -166,7 +166,7 @@ function abortAllRequests() {
 }
 
 function finishedTask(taskId) {
-    if (taskId == taskQueue[0][4]) {
+    if (taskQueue.length != 0 && taskId == taskQueue[0][4]) {
         console.log(`Fetchy finished task: ${taskQueue[0]}`)
         taskQueue.shift()
         console.log('request removed')
