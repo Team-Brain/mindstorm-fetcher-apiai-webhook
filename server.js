@@ -20,6 +20,7 @@ var taskQueue = []
 // Triggered by a POST to /webhook 
 app.post('/api/v1/webhook', (request, response) => {
 
+    console.log('Request body: ' + JSON.stringify(request.body))
     let action = request.body.result.action
     console.log('result action: ' + action)
     const parameters = request.body.result.parameters
@@ -63,6 +64,13 @@ app.post('/api/v1/webhook', (request, response) => {
 
             response.json(responseJson)
 
+        },
+        // The default intent when an action has not been defined or understood in the user input
+        'queue_contents': () => {
+            var queueContentString = queueContents()
+            responseJson.speech = `${queueContentString}`
+            responseJson.displayText = `${queueContentString}`
+            response.json(responseJson)
         },
         // The default intent when an action has not been defined or understood in the user input
         'default': () => {
@@ -115,6 +123,15 @@ app.post('/api/v1/webhook', (request, response) => {
     actionHandlers[action]()
 
 })
+
+function queueContents() {
+    var noOfTasks = taskQueue.length
+    var contentString = `The queue contains ${noOfTasks} tasks, they are: `
+    for (task in taskQueue) {
+        contentString.concat(`${JSON.stringify(taskQueue.acion)} ${JSON.stringify(taskQueue.color)} ${JSON.stringify(taskQueue.object)}, `)
+    }
+    return contentString
+}
 
 function addToTaskQueue(request) {
     console.log(`adding task to task queue: ${JSON.stringify(request)}`)
