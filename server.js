@@ -163,8 +163,8 @@ io.on('connection', (socket) => {
 
     socket.on('task_finished', (taskId, ackFun) => {
         console.log('Fetchy completed a request')
-        finishedTask(taskId)
         ackFun()
+        finishedTask(taskId)
     })
 
     socket.on('disconnect', () => {
