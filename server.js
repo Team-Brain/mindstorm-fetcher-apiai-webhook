@@ -116,7 +116,12 @@ app.post('/api/v1/webhook', (request, response) => {
                 responseJson.speech = 'I am aborting all requests'
                 responseJson.displayText = 'I am aborting all requests'
                 response.json(responseJson)
-                abortAllRequests()
+
+                console.log('removing all requests')
+                taskQueue = []
+                console.log(`current items in taskQueue after abort all requests: ${JSON.stringify(taskQueue)}`)
+                console.log('')
+
                 io.emit('abort')
             }
         }
@@ -145,21 +150,6 @@ function addToTaskQueue(request) {
     console.log(`adding to request queue: ${JSON.stringify(request)}`)
     taskQueue.push(request)
     console.log(`current items in taskQueue after add: ${JSON.stringify(taskQueue)}`)
-    console.log('')
-}
-
-// currently commented out
-function abortRequest() {
-    console.log(`removing request: ${JSON.stringify(taskQueue[0])}`)
-    taskQueue.shift()
-    console.log(`current items in taskQueue after abort: ${JSON.stringify(taskQueue)}`)
-    console.log('')
-}
-
-function abortAllRequests() {
-    console.log('removing all requests')
-    taskQueue = []
-    console.log(`current items in taskQueue after abort all requests: ${JSON.stringify(taskQueue)}`)
     console.log('')
 }
 
