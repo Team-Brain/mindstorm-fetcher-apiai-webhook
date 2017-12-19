@@ -3,16 +3,15 @@
 const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-const crypto = require('crypto');
 
-const path = require('path')
 const bodyParser = require('body-parser')
+const path = require('path')
+const crypto = require('crypto');
 
 const PORT = process.env.PORT || 3000
 const is_staging = process.env.ENV === 'STAGING'
 
 app.use(bodyParser.json({ type: 'application/json' }))
-
 http.listen(PORT, () => console.log(`Listening on ${PORT}`))
 
 // Ordered list of requests for Fetchy to perform
@@ -20,22 +19,11 @@ var taskQueue = []
 
 // Triggered by a POST to /webhook 
 app.post('/api/v1/webhook', (request, response) => {
-    //console.log('Request headers: ' + JSON.stringify(request.headers))
-    //console.log('Request body: ' + JSON.stringify(request.body))
-    //console.log('')
 
-    // An action is a string used to identify what tasks needs to be done
-    // in fulfillment usally based on the corresponding intent.
     let action = request.body.result.action
     console.log('result action: ' + action)
-
-    // Parameters are any entites that API.AI has extracted from the request.
     const parameters = request.body.result.parameters
     console.log('result parameters: ' + JSON.stringify(parameters))
-
-    // Contexts are objects used to track and store conversation state and are identified by strings.
-    const contexts = JSON.stringify(request.body.result.contexts)
-    //console.log('result contexts: ' + contexts)
     console.log('')
 
     // responseJSON is used to send back to dialogflow
@@ -43,14 +31,10 @@ app.post('/api/v1/webhook', (request, response) => {
     let responseJson = {}
     let requestJson = {}
 
-    // A handler for each action defined in API.AI
+    // A handler for each action defined in Dialogflow
     const actionHandlers = {
 
-        // An intent to send Fetchy a request
-        // The first if checks if the robot is connected and notifies the user if it is not connected
-        // Parameters from dialogflow are unpacked, and packed into a new object-
-        // -to be sent back to Dialogflow, to Fetchy and put into the request queue (taskQueue)
-        // io.emit('task', responseJson)
+        // An intent to send send a response to Dialogflow, and put tasks into the taskQueue
         'bring_object': () => {
             let color = parameters['color']
             let object = parameters['object']
@@ -63,6 +47,7 @@ app.post('/api/v1/webhook', (request, response) => {
                 requestJson.object = object
                 requestJson.timestamp = new Date()
 
+                // unique id is created by stringifying the JSON object and hashing it
                 var requestStringed = JSON.stringify(requestJson)
                 var hash_id = crypto.createHash('md5').update(requestStringed).digest('hex');
                 requestJson.id = hash_id
@@ -79,9 +64,7 @@ app.post('/api/v1/webhook', (request, response) => {
             response.json(responseJson)
 
         },
-        // The default intent when an action has not been defined in the user input
-        // This executes whenever a user makes a request or says something that dooesnt-
-        // match a dialogflow intent 
+        // The default intent when an action has not been defined or understood in the user input
         'default': () => {
             responseJson.speech = 'Sorry, I dont understand what you said. Please repeat the request'
             responseJson.displayText = 'Sorry, I dont understand what you said. Please repeat the request'
@@ -96,7 +79,6 @@ app.post('/api/v1/webhook', (request, response) => {
                 responseJson.displayText = 'There are no requests to abort'
                 response.json(responseJson)
             } else {
-                //abortRequest()
                 responseJson.speech = `I am aborting the current request`
                 responseJson.displayText = `I am aborting the current request`
                 response.json(responseJson)
@@ -117,9 +99,8 @@ app.post('/api/v1/webhook', (request, response) => {
                 responseJson.displayText = 'I am aborting all requests'
                 response.json(responseJson)
 
-                console.log('removing all requests')
                 taskQueue = []
-                console.log(`current items in taskQueue after abort all requests: ${JSON.stringify(taskQueue)}`)
+                console.log('removing all requests')
                 console.log('')
 
                 io.emit('abort')
@@ -127,30 +108,18 @@ app.post('/api/v1/webhook', (request, response) => {
         }
     }
 
-    // If the action is not handled by one of our defined action handlers
-    // use the default action handler
     if (!actionHandlers[action]) {
         action = 'default'
     }
     // Matches the action to a action handler
     actionHandlers[action]()
 
-    function sendNotConnected() {
-        let responseJson = {}
-        console.log('Fetchy is not connected')
-        console.log(' ')
-        responseJson.speech = 'Fetchy is not connected or initialised, please connect Fetchy'
-        responseJson.displayText = 'Fetchy is not connected or initialised, please connect Fetchy'
-        response.json(responseJson)
-    }
-
 })
 
 function addToTaskQueue(request) {
-    console.log(`adding to request queue: ${JSON.stringify(request)}`)
+    console.log(`adding task to task queue: ${JSON.stringify(request)}`)
     taskQueue.push(request)
     console.log(`current items in taskQueue after add: ${JSON.stringify(taskQueue)}`)
-    console.log('')
 }
 
 function finishedTask(taskId) {
