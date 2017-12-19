@@ -78,8 +78,9 @@ app.post('/api/v1/webhook', (request, response) => {
                 requestJson.color = color
                 requestJson.object = object
                 requestJson.timestamp = new Date()
+                requestStringify = JSON.stringify(request)
                 console.log(`before i create a hash`)
-                var hash_id = crypto.createHash('md5').update(requestJson).digest('hex');
+                var hash_id = crypto.createHash('md5').update(requestStringify).digest('hex');
                 console.log(`created the hash id : ${hash_id}`)
                 requestJson.id = hash_id
                 console.log(`requestJson with hash id: ${requestJson}`)
