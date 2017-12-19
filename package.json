@@ -2,7 +2,7 @@
   "name": "socket-io-fetchy",
   "version": "1.0.0",
   "engines": {
-    "node": "6.2.0"
+    "node": "6.11.1"
   },
   "description": "",
   "main": "index.js",
@@ -13,8 +13,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.18.2",
-    "express": "4.13.4",
+    "body-parser": "1.18.2",
+    "express": "4.16.2",
     "socket.io": "2.0.4"
   }
 }

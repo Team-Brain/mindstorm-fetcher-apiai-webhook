@@ -1,18 +1,18 @@
 'use strict'
 
-const http = require('http')
-const express = require('express')
-const socketIO = require('socket.io')
+const app = require('express')();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+
 const path = require('path')
 const bodyParser = require('body-parser')
-const PORT = process.env.PORT || 3000
-const app = express()
-app.use(bodyParser.json({ type: 'application/json' }))
-const server = http.createServer(app)
-server.listen(PORT, () => console.log(`Listening on ${PORT}`))
-const io = socketIO(server)
 
+const PORT = process.env.PORT || 3000
 const is_staging = process.env.ENV === 'STAGING'
+
+app.use(bodyParser.json({ type: 'application/json' }))
+
+http.listen(PORT, () => console.log(`Listening on ${PORT}`))
 
 // Ordered list of requests for Fetchy to perform
 var taskQueue = []
