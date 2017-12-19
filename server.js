@@ -126,11 +126,14 @@ app.post('/api/v1/webhook', (request, response) => {
 
 function queueContents() {
     var noOfTasks = taskQueue.length
-    var contentString = `The queue contains ${noOfTasks} tasks, they are: `
-    for (task in taskQueue) {
-        contentString.concat(`${JSON.stringify(taskQueue.acion)} ${JSON.stringify(taskQueue.color)} ${JSON.stringify(taskQueue.object)}, `)
+    if (noOfTasks.length != 0) {
+        var contentString = `The queue contains ${noOfTasks} tasks, they are: `
+        for (task in taskQueue) {
+            contentString.concat(`${JSON.stringify(taskQueue.acion)} ${JSON.stringify(taskQueue.color)} ${JSON.stringify(taskQueue.object)}, `)
+        }
+        return contentString
     }
-    return contentString
+    return "There are no requests in the queue"
 }
 
 function addToTaskQueue(request) {
