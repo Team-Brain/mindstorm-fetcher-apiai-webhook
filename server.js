@@ -145,7 +145,7 @@ app.post('/api/v1/webhook', (request, response) => {
 function addToTaskQueue(request) {
     request = JSON.stringify(request)
     console.log(`adding to request queue: ${request}`)
-    taskQueue = taskQueue.concat(request)
+    taskQueue.push(request)
     console.log(`current items in taskQueue after add: ${taskQueue}`)
     console.log('')
 }
@@ -160,7 +160,7 @@ function abortRequest() {
 
 function abortAllRequests() {
     console.log('removing all requests')
-    taskQueue = [taskQueue[0]]
+    taskQueue = []
     console.log(`current items in taskQueue after abort all requests: ${taskQueue}`)
     console.log('')
 }
