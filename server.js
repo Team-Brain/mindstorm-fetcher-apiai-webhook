@@ -17,11 +17,7 @@ http.listen(PORT, () => console.log(`Listening on ${PORT}`))
 
 // Ordered list of requests for Fetchy to perform
 var taskQueue = []
-// 
-var robotConnected = true || is_staging
-//var robotConnected = false || is_staging
-var performingTask = false
-
+ 
 // Triggered by a POST to /webhook 
 app.post('/api/v1/webhook', (request, response) => {
     //console.log('Request headers: ' + JSON.stringify(request.headers))
@@ -63,10 +59,6 @@ app.post('/api/v1/webhook', (request, response) => {
         // io.emit('task', responseJson)
         'bring_object': () => {
             console.log(`robot connected status: ${robotConnected}`)
-            if (!robotConnected) {
-                sendNotConnected()
-                return
-            }
 
             let color = parameters['color']
             let object = parameters['object']
@@ -78,14 +70,10 @@ app.post('/api/v1/webhook', (request, response) => {
                 requestJson.color = color
                 requestJson.object = object
                 requestJson.timestamp = new Date()
-                console.log(`time to string`)
-                var requestStringed = JSON.stringify(requestJson)
-                console.log(`before i create a hash`)
-                var hash_id = crypto.createHash('md5').update(requestStringed).digest('hex');
-                console.log(`created the hash id : ${hash_id}`)
-                requestJson.id = hash_id
-                console.log(`requestJson with hash id: ${requestJson}`)
 
+                var requestStringed = JSON.stringify(requestJson)
+                var hash_id = crypto.createHash('md5').update(requestStringed).digest('hex');
+                requestJson.id = hash_id
 
                 addToTaskQueue(requestJson)
                 emitTask()
@@ -121,10 +109,7 @@ app.post('/api/v1/webhook', (request, response) => {
         },
         // An intent to remove the first request in the request queue
         'cancel_current': () => {
-            if (!robotConnected) {
-                sendNotConnected()
-                return
-            }
+
             if (taskQueue[0] == null) {
                 console.log('No requests to abort')
                 console.log(`Here is the task queue: ${taskQueue[0]}`)
@@ -141,10 +126,7 @@ app.post('/api/v1/webhook', (request, response) => {
         },
         // An intent to remove the all requests in the request queue
         'cancel_all': () => {
-            if (!robotConnected) {
-                sendNotConnected()
-                return
-            }
+
             if (taskQueue[0] == null) {
                 console.log('No requests to abort')
                 responseJson.speech = 'No requests to abort'
@@ -203,35 +185,36 @@ function abortAllRequests() {
     console.log('')
 }
 
-function finishedTask() {
-    console.log(`Fetchy finished task: ${taskQueue[0]}`)
-    taskQueue.shift()
-    console.log('request removed')
-    performingTask = false
-    console.log(`current items in taskQueue: ${taskQueue}`)
+function finishedTask(taskId) {
+    if (taskId == taskQueue[0][4]) {
+        console.log(`Fetchy finished task: ${taskQueue[0]}`)
+        taskQueue.shift()
+        console.log('request removed')
+        console.log(`current items in taskQueue: ${taskQueue}`)
+        console.log('')
+    } else {
+        console.log('wtf just happened')
+    }
     emitTask()
-    console.log('')
 }
 
 function emitTask() {
-    if (performingTask == false && taskQueue[0] != null) {
+    if (taskQueue.length != 0) {
         io.emit('task', taskQueue[0])
-        performingTask == true
     }
 }
 
 io.on('connection', (socket) => {
     console.log('Client connected')
-    robotConnected = true
+    emitTask()
 
-    socket.on('task_finished', () => {
+    socket.on('task_finished', (taskId, ackFun) => {
         console.log('Fetchy completed a request')
-        finishedTask()
+        finishedTask(taskId)
+        ackFun()
     })
 
     socket.on('disconnect', () => {
         console.log('Client disconnected')
-        taskQueue = []
-        //robotConnected = false
     })
 })
