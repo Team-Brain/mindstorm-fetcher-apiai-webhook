@@ -24,7 +24,6 @@ app.post('/api/v1/webhook', (request, response) => {
     let action = request.body.result.action
     console.log('result action: ' + action)
     const parameters = request.body.result.parameters
-    console.log('result parameters: ' + JSON.stringify(parameters))
     console.log('')
 
     // responseJSON is used to send back to dialogflow
@@ -126,10 +125,11 @@ app.post('/api/v1/webhook', (request, response) => {
 
 function queueContents() {
     var noOfTasks = taskQueue.length
-    if (noOfTasks.length != 0) {
-        var contentString = `The queue contains ${noOfTasks} tasks, they are: `
-        for (task in taskQueue) {
-            contentString.concat(`${JSON.stringify(taskQueue.acion)} ${JSON.stringify(taskQueue.color)} ${JSON.stringify(taskQueue.object)}, `)
+    if (noOfTasks > 0) {
+        var contentString = `The number of tasks in the queue is ${noOfTasks}, the tasks are: `
+        for (let index = 0; index < taskQueue.length; ++index) {
+            let task = taskQueue[index];
+            contentString = contentString.concat(`${task.action} ${task.color} ${task.object}, `)
         }
         return contentString
     }
