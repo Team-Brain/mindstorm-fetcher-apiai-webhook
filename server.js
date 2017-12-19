@@ -58,8 +58,6 @@ app.post('/api/v1/webhook', (request, response) => {
         // -to be sent back to Dialogflow, to Fetchy and put into the request queue (taskQueue)
         // io.emit('task', responseJson)
         'bring_object': () => {
-            console.log(`robot connected status: ${robotConnected}`)
-
             let color = parameters['color']
             let object = parameters['object']
             if (object === 'box') {
