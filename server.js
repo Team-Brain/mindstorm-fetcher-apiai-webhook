@@ -129,7 +129,7 @@ function queueContents() {
         var contentString = `The number of tasks in the queue is ${noOfTasks}, the tasks are: `
         for (let index = 0; index < taskQueue.length; ++index) {
             let task = taskQueue[index];
-            contentString = contentString.concat(`${task.action} ${task.color} ${task.object}, `)
+            contentString = contentString.concat(`${task.color} ${task.object}, `)
         }
         return contentString
     }
