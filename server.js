@@ -46,12 +46,6 @@ app.post('/api/v1/webhook', (request, response) => {
     // A handler for each action defined in API.AI
     const actionHandlers = {
 
-        // The default intent when a user invokes Fetchy
-        'welcome': () => {
-            responseJson.speech = 'Hello! My name is Fetchy'
-            responseJson.displayText = 'Hello! My name is Fetchy'
-            response.json(responseJson)
-        },
         // An intent to send Fetchy a request
         // The first if checks if the robot is connected and notifies the user if it is not connected
         // Parameters from dialogflow are unpacked, and packed into a new object-
@@ -84,18 +78,6 @@ app.post('/api/v1/webhook', (request, response) => {
 
             response.json(responseJson)
 
-        },
-        // An intent to tell the user what he is capable of
-        'abilities': () => {
-            responseJson.speech = 'I can fetch you items, with the command, bring me my coloured object. for example. I can fetch a red box. you can abort my current request by saying, cancel my request, or you can abort all my request by saying, cancel all my requests. just please dont ask me about my purpose'
-            responseJson.displayText = 'I can fetch you items, with the command, bring me my coloured object. for example. I can fetch a red box. you can abort my current request by saying, cancel my request, or you can abort all my request by saying, cancel all my requests. just please dont ask me about my purpose'
-            response.json(responseJson)
-        },
-        // An intent to tell the users his purpose
-        'purpose': () => {
-            responseJson.speech = 'I fetch coffee.... OH MY GOD'
-            responseJson.displayText = 'I fetch coffee.... OH MY GOD'
-            response.json(responseJson)
         },
         // The default intent when an action has not been defined in the user input
         // This executes whenever a user makes a request or says something that dooesnt-
