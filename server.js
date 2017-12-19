@@ -92,7 +92,6 @@ app.post('/api/v1/webhook', (request, response) => {
 
             if (taskQueue[0] == null) {
                 console.log('No requests to abort')
-                console.log(`Here is the task queue: ${taskQueue[0]}`)
                 responseJson.speech = 'There are no requests to abort'
                 responseJson.displayText = 'There are no requests to abort'
                 response.json(responseJson)
@@ -143,34 +142,32 @@ app.post('/api/v1/webhook', (request, response) => {
 })
 
 function addToTaskQueue(request) {
-    request = JSON.stringify(request)
-    console.log(`adding to request queue: ${request}`)
+    console.log(`adding to request queue: ${JSON.stringify(request)}`)
     taskQueue.push(request)
-    console.log(`current items in taskQueue after add: ${taskQueue}`)
+    console.log(`current items in taskQueue after add: ${JSON.stringify(taskQueue)}`)
     console.log('')
 }
 
 // currently commented out
 function abortRequest() {
-    console.log(`removing request: ${taskQueue[0]}`)
+    console.log(`removing request: ${JSON.stringify(taskQueue[0])}`)
     taskQueue.shift()
-    console.log(`current items in taskQueue after abort: ${taskQueue}`)
+    console.log(`current items in taskQueue after abort: ${JSON.stringify(taskQueue)}`)
     console.log('')
 }
 
 function abortAllRequests() {
     console.log('removing all requests')
     taskQueue = []
-    console.log(`current items in taskQueue after abort all requests: ${taskQueue}`)
+    console.log(`current items in taskQueue after abort all requests: ${JSON.stringify(taskQueue)}`)
     console.log('')
 }
 
 function finishedTask(taskId) {
-    if (taskQueue.length != 0 && taskId == taskQueue[0][4]) {
-        console.log(`Fetchy finished task: ${taskQueue[0]}`)
+    if (taskQueue.length != 0 && taskId == taskQueue[0].id) {
+        console.log(`Fetchy finished task: ${JSON.stringify(taskQueue[0])}`)
         taskQueue.shift()
-        console.log('request removed')
-        console.log(`current items in taskQueue: ${taskQueue}`)
+        console.log(`request removed, current items in taskQueue: ${JSON.stringify(taskQueue)}`)
         console.log('')
     } else {
         console.log('wtf just happened')
